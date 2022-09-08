@@ -5,9 +5,15 @@
  */
 package GUI;
 
+import Lexico.Lexer;
+import Lexico.Tokens;
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -91,7 +97,39 @@ public class Upload extends javax.swing.JFrame {
         JFileChooser selector = new JFileChooser();//achu
         int option = selector.showOpenDialog(this);
         if(option==JFileChooser.APPROVE_OPTION){
-            path.setText(selector.getSelectedFile().getPath());
+            String filePath = selector.getSelectedFile().getPath();
+            path.setText(filePath);
+            Reader read;
+            try {
+                read = new BufferedReader(new FileReader(filePath));
+                Lexer lexer = new Lexer(read);
+                String res = "";
+                while(true){
+                    Tokens  tokens = lexer.yylex();
+                    if (tokens == null){
+                        res += "FIN";
+                        System.out.println(res);
+                        return;
+                    }
+                    switch (tokens) {
+                        case ERROR:
+                            res += "Simbolo no definido\n";
+                            break;
+                        case Identificador: case Numero: case Reservadas:
+                            res += lexer.lexeme + ": Es un " + tokens + "\n";
+                            break;
+                        default:
+                            res += "Token: " + tokens + "\n";
+                            break;
+                        }                  
+
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }     
     }//GEN-LAST:event_searchBActionPerformed
 
