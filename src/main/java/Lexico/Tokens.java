@@ -11,12 +11,12 @@ package Lexico;
  */
 public enum Tokens {
     Reservadas,
+    Identificador,
     Igual,
     Suma,
     Resta,
     Multiplicacion,
     Division,
-    Identificador,
     Numero,
     ERROR
 }
