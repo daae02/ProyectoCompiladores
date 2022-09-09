@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Lexico.LexProcessor;
 import Lexico.Lexer;
 import Lexico.Tokens;
 import java.awt.Image;
@@ -26,10 +27,9 @@ import javax.swing.JFileChooser;
  */
 public class Upload extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Upload
-     */
+    private LexProcessor processor;
     public Upload() throws IOException {
+        processor = new LexProcessor();
         initComponents();
         Image img = ImageIO.read(new File("C:/Users/DiegoAlvarez/Documents/NetBeansProjects/ProyectoCompiladores/src/main/resources/loupe.png"));
         Image newimg = img.getScaledInstance( searchB.getWidth()-10, searchB.getHeight()-10,  java.awt.Image.SCALE_SMOOTH ) ;  
@@ -99,37 +99,7 @@ public class Upload extends javax.swing.JFrame {
         if(option==JFileChooser.APPROVE_OPTION){
             String filePath = selector.getSelectedFile().getPath();
             path.setText(filePath);
-            Reader read;
-            try {
-                read = new BufferedReader(new FileReader(filePath));
-                Lexer lexer = new Lexer(read);
-                String res = "";
-                while(true){
-                    Tokens  tokens = lexer.yylex();
-                    if (tokens == null){
-                        res += "FIN";
-                        System.out.println(res);
-                        return;
-                    }
-                    switch (tokens) {
-                        case ERROR:
-                            res += "Simbolo no definido\n";
-                            break;
-                        case Identificador: case Numero: case Reservadas:
-                            res += lexer.lexeme + ": Es un " + tokens + "\n";
-                            break;
-                        default:
-                            res += "Token: " + tokens + "\n";
-                            break;
-                        }                  
-
-                }
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            System.out.println(processor.simpleAnalisis(filePath));
         }     
     }//GEN-LAST:event_searchBActionPerformed
 
