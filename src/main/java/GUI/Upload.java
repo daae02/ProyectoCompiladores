@@ -31,7 +31,7 @@ public class Upload extends javax.swing.JFrame {
     public Upload() throws IOException {
         processor = new LexProcessor();
         initComponents();
-        Image img = ImageIO.read(new File("C:/Users/DiegoAlvarez/Documents/NetBeansProjects/ProyectoCompiladores/src/main/resources/loupe.png"));
+        Image img = ImageIO.read(new File("C:/Users/Usuario/Desktop/TEC/VI_semestre/Compiladores/Proyecto/ProyectoCompiladores/src/main/resources/loupe.png"));
         Image newimg = img.getScaledInstance( searchB.getWidth()-10, searchB.getHeight()-10,  java.awt.Image.SCALE_SMOOTH ) ;  
         searchB.setIcon(new ImageIcon( newimg )); // NOI18N
     }
