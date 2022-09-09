@@ -57,6 +57,7 @@ public enum Tokens {
     OperadorDesplIzAsig,
     OperadorDesplDerAsig,
     OperadorMiembroPuntero,
+    OperadorGato,
     Numero,
     ERROR
 }
