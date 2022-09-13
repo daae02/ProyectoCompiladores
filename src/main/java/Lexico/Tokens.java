@@ -58,6 +58,14 @@ public enum Tokens {
     OperadorDesplDerAsig,
     OperadorMiembroPuntero,
     OperadorGato,
-    Numero,
+    Entero,
+    Hilera,
+    Caracter,
+    Flotante,
+    FlotanteExponente, 
+    Octal,
+    OctalFlotante,
+    Hexadecimal,
+    HexadecimalFlotante,
     ERROR
 }

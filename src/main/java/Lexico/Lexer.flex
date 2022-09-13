@@ -109,6 +109,14 @@ while {lexeme=yytext(); line=yyline+1; return Reservadas;}
 ">>=" {lexeme = yytext(); line=yyline+1; return OperadorDesplDerAsig;}
 "->" {lexeme = yytext(); line=yyline+1; return OperadorMiembroPuntero;}
 "#" {lexeme = yytext(); line=yyline+1; return OperadorGato;}
-{L}({L}|{D})* {lexeme = yytext(); line=yyline+1; return Identificador;}
-("(-"{D}+")")|{D}+ {lexeme=yytext(); line=yyline+1; return Numero;}
+\"(\\\"|[^\"])+\" {lexeme=yytext(); return Hilera;}
+'[^']' {lexeme=yytext(); return Caracter;}
+{L}({L}|{D})* {lexeme=yytext(); return Identificador;}
+[-+]?0|[1-9]{D}* {lexeme=yytext(); return Entero;}
+[-+]?0|[1-9][0-9]*\.[0-9]+ {lexeme=yytext(); return Flotante;}
+[-+]?0|[1-9][0-9]*\.[0-9]+([eE][-+]?[0-9]+) {lexeme=yytext(); return FlotanteExponente;}
+[-+]?0[0-7]+ {lexeme=yytext(); return Octal;}
+[-+]?0[0-7]+\.[0-7]+ {lexeme=yytext(); return OctalFlotante;}
+[-+]?0[xX][0-9a-fA-F]+ {lexeme=yytext(); return Hexadecimal;}
+[-+]?0[xX][0-9a-fA-F]+\.[0-9a-fA-F]+ {lexeme=yytext(); return HexadecimalFlotante;}
  . {return ERROR;}
