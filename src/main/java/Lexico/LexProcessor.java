@@ -36,9 +36,6 @@ public class LexProcessor {
                         case ERROR:
                             res += "Simbolo no definido\n";
                             break;
-                        case Identificador: case Numero: case Reservadas:
-                            res +=lexer.lexeme + "|" + tokens + "|" + lexer.line + "\n";
-                            break;
                         default:
                             res +=lexer.lexeme + "|" + tokens + "|" + lexer.line + "\n";
                             break;
