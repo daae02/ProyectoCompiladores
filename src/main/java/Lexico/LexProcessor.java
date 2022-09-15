@@ -47,7 +47,6 @@ public class LexProcessor {
         for (int i = 0; i < array.size(); i++) {
             Word cword = array.get(i);
             System.out.println(cword.word+" "+cword.token+" "+cword.aparitions+" "+cword.printLines());
-            System.out.println("color: "+cword.col.toString());
         }
     }
     public void simpleAnalisis(String path){
@@ -105,8 +104,8 @@ public class LexProcessor {
             javax.swing.JPanel cont = new javax.swing.JPanel();
             cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
             panel.addWords(new ResultPanel("Apariciones","Lineas","Identificador","Token"),cont);
-            for (int i = 0; i < results.size(); i++) {
-                panel.addWords(createPanel(results.get(i)),cont,Color.RED);
+            for (int i = 0; i < errors.size(); i++) {
+                panel.addWords(createPanel(errors.get(i)),cont,Color.RED);
             }
             panel.setVisible(true);
         }

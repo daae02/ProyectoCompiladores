@@ -31,9 +31,6 @@ public class Upload extends javax.swing.JFrame {
     public Upload() throws IOException {
         processor = new LexProcessor();
         initComponents();
-        Image img = ImageIO.read(new File("C:/Users/Usuario/Desktop/TEC/VI_semestre/Compiladores/Proyecto/ProyectoCompiladores/src/main/resources/loupe.png"));
-        Image newimg = img.getScaledInstance( searchB.getWidth()-10, searchB.getHeight()-10,  java.awt.Image.SCALE_SMOOTH ) ;  
-        searchB.setIcon(new ImageIcon( newimg )); // NOI18N
     }
 
     /**
@@ -99,7 +96,7 @@ public class Upload extends javax.swing.JFrame {
         if(option==JFileChooser.APPROVE_OPTION){
             String filePath = selector.getSelectedFile().getPath();
             path.setText(filePath);
-            System.out.println(processor.simpleAnalisis(filePath));
+            processor.simpleAnalisis(filePath);
         }     
     }//GEN-LAST:event_searchBActionPerformed
 
