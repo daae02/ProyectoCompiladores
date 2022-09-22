@@ -107,11 +107,12 @@ public class LexProcessor {
                 errors = new  ArrayList<>();
                 while(true){
                     Tokens  tokens = lexer.yylex();
+                    
                     if (tokens == null){
                         System.out.println("RESULTADOS");
-                        printResults(results);
+                        //printResults(results);
                         System.out.println("ERRORES");
-                        printResults(errors);
+                        //printResults(errors);
                         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                         showResults(0,0,filename);
                         showErrors(screenSize.height/3,0,filename);
