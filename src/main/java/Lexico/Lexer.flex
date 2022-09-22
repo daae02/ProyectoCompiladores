@@ -7,7 +7,7 @@ import static Lexico.Tokens.*;
 %unicode
 L=[a-zA-Z]+
 D=[0-9]+
-H=[0-9,A,B,C,D,E,F]
+H=[0-9a-fA-F]
 
 identificador = {L}({L}|{D})*
 
@@ -16,12 +16,12 @@ flotante =  [-+]?0|[1-9][0-9]*\.[0-9]+
 flotanteExponente = [-+]?0|[1-9][0-9]*\.[0-9]+([eE][-+]?[0-9]+)
 octal = [-+]?0[0-7]+
 octalFlotante = [-+]?0[0-7]+\.[0-7]+
-hexadecimal = [-+]?0[xX][0-9a-fA-F]+
-hexadecimalFlotante = [-+]?0[xX][0-9a-fA-F]+\.[0-9a-fA-F]+
+hexadecimal = [-+]?0[xX]{H}+
+hexadecimalFlotante = [-+]?0[xX]{H}+\.{H}+
 
 numero = {entero} | {flotante} | {flotanteExponente} | {octal} | {octalFlotante} | {hexadecimal} | {hexadecimalFlotante}
 
-espacio=[ ,\t,\r,\n]+
+espacio=[ \t\r\n]+
 %{
     public String lexeme;
     public int line;
@@ -77,8 +77,8 @@ while {lexeme=yytext(); line=yyline+1; return Reservadas;}
 {espacio} {/*Ignore*/}
 "//".* {/*Ignore*/}
 "/*".* {/*Ignore*/}     
-"," {lexeme = yytext(); line=yyline+1; return OperadorComa;}
 ";" {lexeme = yytext(); line=yyline+1; return OperadorPuntoComa;}
+"," {lexeme = yytext(); line=yyline+1; return OperadorComa;}
 "++" {lexeme = yytext(); line=yyline+1; return OperadorIncremento;}
 "--" {lexeme = yytext(); line=yyline+1; return OperadorDecremento;}
 "==" {lexeme = yytext(); line=yyline+1; return OperadorIgualIgual;}
@@ -126,16 +126,15 @@ while {lexeme=yytext(); line=yyline+1; return Reservadas;}
 \"(\\\"|[^\"])+\" {lexeme=yytext(); return Hilera;}
 '[^']' {lexeme=yytext(); return Caracter;}
 
-{numero}{identificador} {lexeme = yytext(); return ERROR;}
 
 {identificador} {lexeme=yytext(); return Identificador;}
 {entero} {lexeme=yytext(); return Entero;}
 {flotante} {lexeme=yytext(); return Flotante;}
-flotanteExponente} {lexeme=yytext(); return FlotanteExponente;}
+{flotanteExponente} {lexeme=yytext(); return FlotanteExponente;}
 {octal} {lexeme=yytext(); return Octal;}
 {octalFlotante} {lexeme=yytext(); return OctalFlotante;}
 {hexadecimal} {lexeme=yytext(); return Hexadecimal;}
 {hexadecimalFlotante} {lexeme=yytext(); return HexadecimalFlotante;}
-
+{numero}{identificador} {lexeme = yytext(); return ERROR;}
 
 [^] {lexeme = yytext(); return ERROR;}
