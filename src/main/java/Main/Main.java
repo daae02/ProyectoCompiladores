@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class Main {
     public static void main(String[] args) {
-        String path = "C:/Users/Usuario/Desktop/TEC/VI_semestre/Compiladores/Proyecto/ProyectoCompiladores/src/main/java/Lexico/Lexer.flex";
+        String path = "./src/main/java/Lexico/Lexer.flex";
         generateLexer(path);
     
     }
