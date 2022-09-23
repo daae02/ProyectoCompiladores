@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>anyvalue</groupId>
+            <groupId>AnyData</groupId>
             <artifactId>JFlex</artifactId>
             <version>0</version>
         </dependency>

@@ -17,6 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -100,18 +102,19 @@ public class LexProcessor {
     }
     public void simpleAnalisis(String path){
         try {
-                read = new BufferedReader(new FileReader(path));
+                read = Files.newBufferedReader(new File(path).toPath(),StandardCharsets.UTF_8);
                 String filename = new File(path).getName();
                 Lexer lexer = new Lexer(read);
                 results = new  ArrayList<>();
                 errors = new  ArrayList<>();
                 while(true){
                     Tokens  tokens = lexer.yylex();
+                    
                     if (tokens == null){
                         System.out.println("RESULTADOS");
-                        printResults(results);
+                        //printResults(results);
                         System.out.println("ERRORES");
-                        printResults(errors);
+                        //printResults(errors);
                         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                         showResults(0,0,filename);
                         showErrors(screenSize.height/3,0,filename);
