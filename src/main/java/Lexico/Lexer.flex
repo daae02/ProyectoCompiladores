@@ -5,7 +5,7 @@ import static Lexico.Tokens.*;
 %type Tokens
 %line
 %unicode
-L=[a-zA-Z]+
+L=[a-zA-Z_]+
 D=[0-9]+
 H=[0-9a-fA-F]+
 O=[0-7]+

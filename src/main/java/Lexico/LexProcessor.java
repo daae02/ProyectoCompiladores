@@ -49,13 +49,16 @@ public class LexProcessor {
     private void printResults(ArrayList<Word> array){
         for (int i = 0; i < array.size(); i++) {
             Word cword = array.get(i);
-            System.out.println(cword.word+" "+cword.token+" "+cword.aparitions+" "+cword.printLines());
+            System.out.println(cword.word+"\t\t"+cword.token+"\t\t"+cword.aparitions+"\t\t"+cword.printLines());
         }
     }
     private ResultPanel createPanel(Word panelWord){
         return new ResultPanel(String.valueOf(panelWord.aparitions),panelWord.printLines(),panelWord.token,panelWord.word);
     }
     private void showResults(int h,int w, String filename){
+        printResults(results);
+        System.out.println("ERRORES");
+        printResults(errors);
         panel = new ResultsPanel();
         panel.setTitle("Tabla de Tokens de "+filename);
         panel.setLocation(w, h);
