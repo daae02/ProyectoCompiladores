@@ -77,9 +77,10 @@ typedef,union,unsigned,void,volatile,while
     con cualquier formato aceptado por C (Octal, Hexadecimal, flotante con exponente)
 - Debe aceptar todos los operadores aceptados por C. A continuación, se detalla una lista con muchos de los
     operadores. Se recomienda consultar si falta alguno:
-
+```
 "," ";" "++" "--" "==" ">=" ">" "?" "<=" "<" "!=" "||" "&&" "!"
 "=" "+" "-" "*" "/" "%" "(" ")" "[" "]" "{" "}" ":" "."
 "+=" "-=" "*=" "/=" "&" "^" "|" ">>" "<<" "~" "%=" "&=" "^=" "|="
 "<<=" ">>=" "->"
+```
 
