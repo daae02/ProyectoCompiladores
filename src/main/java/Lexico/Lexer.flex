@@ -7,17 +7,17 @@ import static Lexico.Tokens.*;
 %unicode
 L=[a-zA-Z]+
 D=[0-9]+
-H=[0-9a-fA-F]
+H=[0-9a-fA-F]+
+O=[0-7]+
 
 identificador = {L}({L}|{D})*
-
-entero = [-+]?0|[1-9]{D}*
-flotante =  [-+]?0|[1-9][0-9]*\.[0-9]+
-flotanteExponente = [-+]?0|[1-9][0-9]*\.[0-9]+([eE][-+]?[0-9]+)
-octal = [-+]?0[0-7]+
-octalFlotante = [-+]?0[0-7]+\.[0-7]+
-hexadecimal = [-+]?0[xX]{H}+
-hexadecimalFlotante = [-+]?0[xX]{H}+\.{H}+
+entero = [-+]?(0|[1-9][0-9]*)
+flotante = [-+]?(0?\.{D}|[1-9][0-9]*\.[0-9]*)
+flotanteExponente = [-+]?(0?\.{D}([eE][-+]?{D})|{D}\.[0-9]*([eE][-+]?{D})|[1-9]+([eE][-+]?{D}))
+octal = [-+]?0{O}
+octalFlotante = [-+]?0{O}\.{O}
+hexadecimal = [-+]?0[xX]{H}
+hexadecimalFlotante = [-+]?(0[xX]{H}\.{H}[pP][-+]?{D}|0[xX][0-9a-fA-F]*\.{H}[pP][-+]?{D})
 
 numero = {entero} | {flotante} | {flotanteExponente} | {octal} | {octalFlotante} | {hexadecimal} | {hexadecimalFlotante}
 
@@ -123,9 +123,8 @@ while {lexeme=yytext(); line=yyline+1; return Reservadas;}
 ">>=" {lexeme = yytext(); line=yyline+1; return OperadorDesplDerAsig;}
 "->" {lexeme = yytext(); line=yyline+1; return OperadorMiembroPuntero;}
 "#" {lexeme = yytext(); line=yyline+1; return OperadorGato;}
-\"(\\\"|[^\"])+\" {lexeme=yytext(); return Hilera;}
-'[^']' {lexeme=yytext(); return Caracter;}
-
+\"(\\\"|[^\"])+\" | \"\" {lexeme=yytext(); return Hilera;}
+'[^']' | '\\[^']+' {lexeme=yytext(); return Caracter;}
 
 {identificador} {lexeme=yytext(); return Identificador;}
 {entero} {lexeme=yytext(); return Entero;}

@@ -11,15 +11,12 @@ import GUI.Upload;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,10 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author DiegoAlvarez
- */
+
 public class LexProcessor {
     Reader read;
     ArrayList<Word> results;
@@ -60,8 +54,6 @@ public class LexProcessor {
     }
     private ResultPanel createPanel(Word panelWord){
         return new ResultPanel(String.valueOf(panelWord.aparitions),panelWord.printLines(),panelWord.token,panelWord.word);
-        
-        
     }
     private void showResults(int h,int w, String filename){
         panel = new ResultsPanel();
@@ -98,43 +90,37 @@ public class LexProcessor {
             return;
         }
         sendMessage("Compilado con éxito.","/checked.png",filename);
-        
     }
     public void simpleAnalisis(String path){
         try {
-                read = Files.newBufferedReader(new File(path).toPath(),StandardCharsets.UTF_8);
-                String filename = new File(path).getName();
-                Lexer lexer = new Lexer(read);
-                results = new  ArrayList<>();
-                errors = new  ArrayList<>();
-                while(true){
-                    Tokens  tokens = lexer.yylex();
-                    
-                    if (tokens == null){
-                        System.out.println("RESULTADOS");
-                        //printResults(results);
-                        System.out.println("ERRORES");
-                        //printResults(errors);
-                        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                        showResults(0,0,filename);
-                        showErrors(screenSize.height/3,0,filename);
-                        return;
-                    }
-                    else{
-                        switch (tokens) {
-                            case ERROR:
-                                addToArray(errors,lexer,tokens);
-                                break;
-                            default:
-                                addToArray(results,lexer,tokens);
-                                break;
-                        }                  
-                    }
+            read = Files.newBufferedReader(new File(path).toPath(),StandardCharsets.UTF_8);
+            String filename = new File(path).getName();
+            Lexer lexer = new Lexer(read);
+            results = new  ArrayList<>();
+            errors = new  ArrayList<>();
+            while(true){
+                Tokens  tokens = lexer.yylex();
+                if (tokens == null){
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    showResults(0,0,filename);
+                    showErrors(screenSize.height/3,0,filename);
+                    return;
                 }
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
+                else{
+                    switch (tokens) {
+                        case ERROR:
+                            addToArray(errors,lexer,tokens);
+                            break;
+                        default:
+                            addToArray(results,lexer,tokens);
+                            break;
+                    }                  
+                }
             }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
