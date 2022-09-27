@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package GUI;
-
+    
 import Lexico.LexProcessor;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,10 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- *
- * @author DiegoAlvarez
- */
+
 public class Upload extends javax.swing.JFrame {
 
     private LexProcessor processor;
