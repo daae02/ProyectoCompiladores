@@ -1,8 +1,10 @@
-# I.T.C.R. Compiladores & Intérpretes^
+# I.T.C.R. Compiladores & Intérpretes
 
-### Departamento de Computación Scanner
+### Departamento de Computación 
+### Scanner
 
-### Prof: Ing. Erika Marín Schumann. II Semestre del 2022
+### Prof: Ing. Erika Marín Schumann. 
+### II Semestre del 2022
 
 ## Motivación
 
@@ -51,13 +53,13 @@ Se les sugiere tomar en cuenta los siguientes aspectos para asegurar la completi
     el tipo de cada uno de estos puede diferir en cada tarea. Por ejemplo, el token “+” puede ser de tipo “OPERADOR”
     o “OPERADOR ADITIVO”. Sin embargo, debe haber al menos 4 grandes grupos de Tokens:
 
- • IDENTIFICADORES
+##### • IDENTIFICADORES
 
- • OPERADORES
+##### • OPERADORES
 
- • PALABRAS RESERVADAS
+##### • PALABRAS RESERVADAS
 
- • LITERALES
+##### • LITERALES
 
 
 - El programa debe identificar los comentarios y omitir todos los tokens que se encuentran dentro de ellos. Ya que se
