@@ -5,7 +5,7 @@
  */
 package Lexico;
 
-import GUI.ResultPanel;
+import GUI.ResultPanelL;
 import GUI.ResultsPanel;
 import GUI.Upload;
 import java.awt.Color;
@@ -52,8 +52,8 @@ public class LexProcessor {
             System.out.println(cword.word+"\t\t"+cword.token+"\t\t"+cword.aparitions+"\t\t"+cword.printLines());
         }
     }
-    private ResultPanel createPanel(Word panelWord){
-        return new ResultPanel(String.valueOf(panelWord.aparitions),panelWord.printLines(),panelWord.token,panelWord.word);
+    private ResultPanelL createPanel(Word panelWord){
+        return new ResultPanelL(String.valueOf(panelWord.aparitions),panelWord.printLines(),panelWord.token,panelWord.word);
     }
     private void showResults(int h,int w, String filename){
         printResults(results);
@@ -64,7 +64,7 @@ public class LexProcessor {
         panel.setLocation(w, h);
         javax.swing.JPanel cont = new javax.swing.JPanel();
         cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
-        panel.addWords(new ResultPanel("Apariciones","Lineas","Identificador","Token"),cont);
+        panel.addWords(new ResultPanelL("Apariciones","Lineas","Identificador","Token"),cont);
         for (int i = 0; i < results.size(); i++) {
             panel.addWords(createPanel(results.get(i)),cont,results.get(i).col);
         }
@@ -84,7 +84,7 @@ public class LexProcessor {
             panel.setLocation(w, h);
             javax.swing.JPanel cont = new javax.swing.JPanel();
             cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
-            panel.addWords(new ResultPanel("Apariciones","Lineas","Identificador","Token"),cont);
+            panel.addWords(new ResultPanelL("Apariciones","Lineas","Identificador","Token"),cont);
             for (int i = 0; i < errors.size(); i++) {
                 panel.addWords(createPanel(errors.get(i)),cont,Color.RED);
             }
@@ -104,9 +104,7 @@ public class LexProcessor {
             while(true){
                 Tokens  tokens = lexer.yylex();
                 if (tokens == null){
-                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                    showResults(0,0,filename);
-                    showErrors(screenSize.height/3,0,filename);
+                    showErrors(0,0,filename);
                     return;
                 }
                 else{
