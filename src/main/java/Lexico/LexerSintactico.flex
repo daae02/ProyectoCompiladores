@@ -86,10 +86,8 @@ while {return new Symbol(sym.While, yyline, yychar, yytext());}
 "/*".* {/*Ignore*/}     
 ";" {return new Symbol(sym.OperadorPuntoComa, yyline, yychar, yytext());}
 "," {return new Symbol(sym.OperadorComa, yyline, yychar, yytext());}
-"++" {return new Symbol(sym.OperadorIncremento, yyline, yychar, yytext());}
-"--" {return new Symbol(sym.OperadorDecremento, yyline, yychar, yytext());}
-"==" {return new Symbol(sym.OperadorIgualIgual, yyline, yychar, yytext());}
 
+"==" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
 ">=" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
 ">" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
 "<=" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
@@ -102,12 +100,16 @@ while {return new Symbol(sym.While, yyline, yychar, yytext());}
 "|" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
 
 "?" {return new Symbol(sym.OperadorPregunta, yyline, yychar, yytext());}
-"=" {return new Symbol(sym.OperadorIgual, yyline, yychar, yytext());}
-"+" {return new Symbol(sym.OperadorSuma, yyline, yychar, yytext());}
-"-" {return new Symbol(sym.OperadorResta, yyline, yychar, yytext());}
-"*" {return new Symbol(sym.OperadorMultiplicacion, yyline, yychar, yytext());}
-"/" {return new Symbol(sym.OperadorDivision, yyline, yychar, yytext());}
-"%" {return new Symbol(sym.OperadorModulo, yyline, yychar, yytext());}
+
+"++" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"--" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"=" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"+" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"-" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"*" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"/" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"%" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+
 "(" {return new Symbol(sym.OperadorParentesisIz, yyline, yychar, yytext());}
 ")" {return new Symbol(sym.OperadorParentesisDer, yyline, yychar, yytext());}
 "[" {return new Symbol(sym.OperadorParCuadradoIz, yyline, yychar, yytext());}
