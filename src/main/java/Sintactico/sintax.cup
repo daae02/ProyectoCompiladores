@@ -97,7 +97,7 @@ RESTOLISTA ::=
     OperadorComa ASIGNACION RESTOLISTA | EPSILON
 ;
 ASIGNACION ::= 
-    Identificador | Identificador OperadorIgual LITERAL
+    Identificador | Identificador OperadorIgual LITERAL | Identificador OperadorAritmetico LITERAL
 ;
 DECLARACIONCONSTANTE ::= 
     Const TIPO Identificador OperadorIgual LITERAL OperadorPuntoComa
