@@ -95,21 +95,27 @@ while {return new Symbol(sym.While, yyline, yychar, yytext());}
 "!=" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
 "||" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
 "&&" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
-"!" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
 "^" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
 "|" {return new Symbol(sym.OperadorBooleano, yyline, yychar, yytext());}
+
+"!" {return new Symbol(sym.OperadorNegacion, yyline, yychar, yytext());}
 
 "?" {return new Symbol(sym.OperadorPregunta, yyline, yychar, yytext());}
 
 "++" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
 "--" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
-"=" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
 "+" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
 "-" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
 "*" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
 "/" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
 "%" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"+=" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"-=" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"*=" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"/=" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
+"%=" {return new Symbol(sym.OperadorAritmetico, yyline, yychar, yytext());}
 
+"=" {return new Symbol(sym.OperadorIgual, yyline, yychar, yytext());}
 "(" {return new Symbol(sym.OperadorParentesisIz, yyline, yychar, yytext());}
 ")" {return new Symbol(sym.OperadorParentesisDer, yyline, yychar, yytext());}
 "[" {return new Symbol(sym.OperadorParCuadradoIz, yyline, yychar, yytext());}
@@ -118,15 +124,10 @@ while {return new Symbol(sym.While, yyline, yychar, yytext());}
 "}" {return new Symbol(sym.OperadorCorcheteDer, yyline, yychar, yytext());}
 ":" {return new Symbol(sym.OperadorDoblePunto, yyline, yychar, yytext());}
 "." {return new Symbol(sym.OperadorPunto, yyline, yychar, yytext());}
-"+=" {return new Symbol(sym.OperadorSumaAsignacion, yyline, yychar, yytext());}
-"-=" {return new Symbol(sym.OperadorRestaAsignacion, yyline, yychar, yytext());}
-"*=" {return new Symbol(sym.OperadorMultAsignacion, yyline, yychar, yytext());}
-"/=" {return new Symbol(sym.OperadorDivAsignacion, yyline, yychar, yytext());}
 "&" {return new Symbol(sym.OperadorDireccion, yyline, yychar, yytext());}
 ">>" {return new Symbol(sym.OperadorDesplDer, yyline, yychar, yytext());}
 "<<" {return new Symbol(sym.OperadorDesIz, yyline, yychar, yytext());}
 "~" {return new Symbol(sym.OperadorComplementoAUno, yyline, yychar, yytext());}
-"%=" {return new Symbol(sym.OperadorModuloAsignacion, yyline, yychar, yytext());}
 "&=" {return new Symbol(sym.OperadorANDAsignacion, yyline, yychar, yytext());}
 "^=" {return new Symbol(sym.OperadorXORAsignacion, yyline, yychar, yytext());}
 "|=" {return new Symbol(sym.OperadorORAsignacion, yyline, yychar, yytext());}
