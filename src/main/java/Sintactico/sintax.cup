@@ -81,3 +81,62 @@ DECLARACION_FOR ::=
     Identificador Op_incremento | 
     Op_incremento Identificador
 ;
+DECLARACIONVARIABLE ::= 
+    TIPO LISTA OperadorPuntoComa
+;
+TIPO ::= 
+    Char  |
+    Int   |
+    Long  |
+    Short
+;
+LISTA ::=
+    ASIGNACION RESTOLISTA
+;
+RESTOLISTA ::=
+    OperadorComa ASIGNACION RESTOLISTA | EPSILON
+;
+ASIGNACION ::= 
+    Identificador | Identificador OperadorIgual LITERAL
+;
+DECLARACIONCONSTANTE ::= 
+    Const TIPO Identificador OperadorIgual LITERAL OperadorPuntoComa
+;
+LITERAL ::=
+    Entero | Flotante | FlotanteExponente | Octal | OctalFlotante | Hexadecimal | HexadecimalFlotante | Caracter 
+;
+WRITE ::= Write OperadorParentesisIz PARAMETROSWRITE OperadorParentesisDer OperadorPuntoComa
+;
+PARAMETROSWRITE ::= EXPRESION RESTOPARAMETROSWRITE 
+;
+RESTOPARAMETROSWRITE ::= OperadorComa EXPRESION RESTOPARAMETROSWRITE | EPSILON
+;
+READ ::= Read OperadorParentesisIz PARAMETROSREAD OperadorParentesisDer OperadorPuntoComa
+;
+PARAMETROSREAD ::= Identificador | EPSILON
+;
+FUNCION ::= TIPOFUNCION Identificador OperadorParentesisIz PARAMETROSFUNCION OperadorParentesisDer OperadorCorcheteIz CONTENIDOFUNCION OperadorCorcheteDer
+;
+TIPOFUNCION ::= TIPO | Void
+;
+PARAMETROSFUNCION ::= TIPO Identificador RESTOPARAMETROSFUNCION | EPSILON  
+;
+RESTOPARAMETROSFUNCION ::= OperadorComa TIPO Identificador RESTOPARAMETROSFUNCION | EPSILON  
+;
+CONTENIDOFUNCION ::= DECLARACION CUERPO 
+;
+DECLARACION ::= DECLARACIONVARIABLE DECLARACION | DECLARACIONCONSTANTE DECLARACION | EPSILON 
+;
+CUERPO ::=  EXPRESION CUERPO                    | 
+            ESTRUCTURACONTROL CUERPO            |
+            READ CUERPO                         | 
+            WRITE CUERPO                        | 
+            Break OperadorPuntoComa CUERPO      |
+            Continue OperadorPuntoComa CUERPO   |
+            EXPRESION                           |
+            ESTRUCTURACONTROL                   |
+            READ                                |
+            WRITE                               |
+            Break OperadorPuntoComa             |
+            Continue OperadorPuntoComa          
+;
