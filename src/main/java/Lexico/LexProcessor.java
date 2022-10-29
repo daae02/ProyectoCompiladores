@@ -8,6 +8,7 @@ package Lexico;
 import GUI.ResultPanelL;
 import GUI.ResultsPanel;
 import GUI.Upload;
+import Sintactico.Sintax;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -15,11 +16,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java_cup.runtime.Symbol;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -96,14 +103,24 @@ public class LexProcessor {
     }
     public void simpleAnalisis(String path){
         try {
-            read = Files.newBufferedReader(new File(path).toPath(),StandardCharsets.UTF_8);
+            Path f = new File(path).toPath();
+            read = Files.newBufferedReader(f,StandardCharsets.UTF_8);
             String filename = new File(path).getName();
+            String content = new String(Files.readAllBytes(f),StandardCharsets.UTF_8);
             Lexer lexer = new Lexer(read);
             results = new  ArrayList<>();
             errors = new  ArrayList<>();
             while(true){
                 Tokens  tokens = lexer.yylex();
                 if (tokens == null){
+                    Sintax s;
+                    s = new Sintax(new LexerCup(new StringReader(content)));
+                    try {
+                        s.parse();
+                    } catch (Exception ex) {
+                        Symbol sym = s.getS();
+                        System.out.println(String.valueOf(sym.right)+" "+String.valueOf(sym.left)+" "+String.valueOf(sym.parse_state)+" "+sym.value.toString());
+                    }
                     showErrors(0,0,filename);
                     return;
                 }

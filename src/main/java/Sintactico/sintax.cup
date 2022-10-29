@@ -35,13 +35,13 @@ terminal Main,Auto, Break, Case, Char, Const, Continue,
         OperadorDesplDerAsig, OperadorMiembroPuntero, OperadorGato, Hilera,
         Caracter, Identificador, Entero, Flotante, FlotanteExponente, Octal,
         OctalFlotante, Hexadecimal, HexadecimalFlotante, Error;
-non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
+non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, ELSE, IF_ELSE,
     WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, EPSILON;
 
 start with INICIO;
 
 INICIO ::= 
-    Main;
+    Switch;
 EPSILON ::= {: RESULT = null; :};
 SENTENCIA ::= 
     SENTENCIA DECLARACION |
@@ -57,3 +57,7 @@ SENTENCIA ::=
     SENTENCIA FOR |
     FOR
 ;
+
+IF ::= If OperadorParentesisIz SENTENCIA_BOOLEANA OperadorParentesisDer OperadorCorcheteIz SENTENCIA OperadorCorcheteDer;
+ELSE ::= Else OperadorCorcheteIz SENTENCIA OperadorCorcheteDer | Else IF;
+IF_ELSE  ::= IF ELSE;
