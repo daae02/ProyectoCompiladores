@@ -15,118 +15,108 @@ parser code
 }
 :};
 
-terminal Linea, Comillas, T_dato, Cadena, If, Else, Do, While, For,
-    Igual, Suma, Resta, Multiplicacion, Division, Op_logico, Op_relacional,
-    Op_atribucion, Op_incremento, Op_booleano, Parentesis_a, Parentesis_c,
-    Llave_a, Llave_c, Corchete_a, Corchete_c, Main, P_coma, Identificador,
-    Numero, ERROR;
-non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, IF_ELSE,
-    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR;
+terminal Identificador, OperadorAritmetico, OperadorBooleano, OperadorComa, OperadorCorcheteDer, OperadorCorcheteIz
+        OperadorDoblePunto, OperadorIgual, OperadorNegacion, OperadorParentesisDer, OperadorParentesisIz, OperadorPuntoComa,
+        Char, Int, Long, Short, Entero, Flotante, FlotanteExponente, Octal, OctalFlotante, Hexadecimal, HexadecimalFlotante, 
+        Caracter, Write, Read, For, While, Switch, If, Else, Void, Case, Default, Continue, Break, ERROR
+    ;
 
-start with INICIO;
+non terminal INICIO, GLOBALES, GLOBALESLIST, LISTGLOBALES, LISTGLOBALESSEG, LISTGLOBALESTER, FUNCIONES, 
+            FUNCIONES, FUNCIONESLISTA, DECLARACIONVARIABLE, TIPO, LISTA, RESTOLISTA, ASIGNACION, DECLARACIONCONSTANTE, 
+            LITERAL, WRITE, PARAMETROSWRITE, RESTOPARAMETROSWRITE, READ, PARAMETROSREAD, FUNCION, TIPOFUNCION, 
+            PARAMETROSFUNCION, RESTOPARAMETROSFUNCION, CONTENIDOFUNCION, DECLARACION, CUERPO, EXPRESION, 
+            EXPSIMPLE, EXPBOOLEANA, EXPARITMETRICA, FOR, EXPRESIONESFOR, CUERPOFOR, WHILE, SWITCH, CUERPOSWITCH,
+            CUERPOSWITCHLISTA, CASE, DEFAULT, IF, ELSE, IF_ELSE, EPSILON, ESTRUCTURACONTROL
+    ;
 
-INICIO ::= 
-    Int Main Parentesis_a Parentesis_c Llave_a SENTENCIA Llave_c |
-    Main Parentesis_a Parentesis_c Llave_a SENTENCIA Llave_c
+start with INICIO
 ;
-SENTENCIA ::= 
-    SENTENCIA DECLARACION |
-    DECLARACION |
-    SENTENCIA IF | 
-    IF |
-    SENTENCIA IF_ELSE |
-    IF_ELSE |
-    SENTENCIA WHILE |
-    WHILE |
-    SENTENCIA DO_WHILE
-    DO_WHILE |
-    SENTENCIA FOR |
-    FOR
+
+INICIO ::= GLOBALES DECLARACIONCONSTANTE FUNCIONES 
 ;
-DECLARACION ::= 
-    T_dato Identificador P_coma | 
-    T_dato Identificador Op_atribucion Numero P_coma |
-    T_dato Identificador Igual Numero P_coma |
-    T_dato Identificador Op_incremento P_coma | 
-    T_dato Op_incremento Identificador P_coma | 
-    Cadena Identificador Op_atribucion Comillas Comillas P_coma |
-    Cadena Identificador Igual Comillas Comillas P_coma |
-    Cadena Identificador Op_atribucion Comillas Identificador Comillas P_coma |
-    Cadena Identificador Igual Comillas Identificador Comillas P_coma
+
+GLOBALES ::= GLOBALESLIST GLOBALES | EPSILON 
 ;
-IF ::= If Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Llave_a SENTENCIA Llave_c
+GLOBALESLIST ::=  TIPO LISTGLOBALES 
 ;
-SENTENCIA_BOOLEANA ::= 
-    Op_booleano | 
-    Identificador Op_relacional Op_booleano |
-    Identificador Op_relacional Numero |
-    Identificador Op_relacional Identificador |
-    Identificador Op_relacional Comillas Comillas |
-    Identificador Op_relacional Comillas Identificador Comillas
+
+LISTGLOBALES ::= Identificador LISTGLOBALESSEG 
 ;
-IF_ELSE ::= If Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Llave_a SENTENCIA Llave_c Else Llave_a SENTENCIA Llave_c
+LISTGLOBALESSEG ::=  OperadorIgual LITERAL LISTGLOBALESTER | OperadorComa LISTGLOBALES| OperadorPuntoComa 
 ;
-WHILE ::= While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Llave_a SENTENCIA Llave_c
+LISTGLOBALESTER ::= OperadorComa LISTGLOBALES | OperadorPuntoComa 
 ;
-DO_WHILE ::= Do Llave_a SENTENCIA Llave_c While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c P_coma
+
+FUNCIONES ::= FUNCION FUNCIONESLISTA 
 ;
-FOR ::= For Parentesis_a SENTENCIA_FOR Parentesis_c Llave_a SENTENCIA Llave_c
+
+FUNCIONESLISTA ::= FUNCION FUNCIONESLISTA | EPSILON 
 ;
-SENTENCIA_FOR ::=
-    T_dato Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR |
-    Identificador Igual Numero P_coma SENTENCIA_BOOLEANA P_coma DECLARACION_FOR
-;
-DECLARACION_FOR ::= 
-    Identificador Op_atribucion Numero |
-    Identificador Op_incremento | 
-    Op_incremento Identificador
-;
+
 DECLARACIONVARIABLE ::= 
     TIPO LISTA OperadorPuntoComa
 ;
+
 TIPO ::= 
     Char  |
     Int   |
     Long  |
     Short
 ;
+
 LISTA ::=
     ASIGNACION RESTOLISTA
 ;
+
 RESTOLISTA ::=
     OperadorComa ASIGNACION RESTOLISTA | EPSILON
 ;
+
 ASIGNACION ::= 
     Identificador | Identificador OperadorIgual LITERAL | Identificador OperadorAritmetico LITERAL
 ;
+
 DECLARACIONCONSTANTE ::= 
     Const TIPO Identificador OperadorIgual LITERAL OperadorPuntoComa
 ;
+
 LITERAL ::=
     Entero | Flotante | FlotanteExponente | Octal | OctalFlotante | Hexadecimal | HexadecimalFlotante | Caracter 
 ;
+
 WRITE ::= Write OperadorParentesisIz PARAMETROSWRITE OperadorParentesisDer OperadorPuntoComa
 ;
+
 PARAMETROSWRITE ::= EXPRESION RESTOPARAMETROSWRITE 
 ;
+
 RESTOPARAMETROSWRITE ::= OperadorComa EXPRESION RESTOPARAMETROSWRITE | EPSILON
 ;
+
 READ ::= Read OperadorParentesisIz PARAMETROSREAD OperadorParentesisDer OperadorPuntoComa
 ;
+
 PARAMETROSREAD ::= Identificador | EPSILON
 ;
+
 FUNCION ::= TIPOFUNCION Identificador OperadorParentesisIz PARAMETROSFUNCION OperadorParentesisDer OperadorCorcheteIz CONTENIDOFUNCION OperadorCorcheteDer
 ;
+
 TIPOFUNCION ::= TIPO | Void
 ;
+
 PARAMETROSFUNCION ::= TIPO Identificador RESTOPARAMETROSFUNCION | EPSILON  
 ;
+
 RESTOPARAMETROSFUNCION ::= OperadorComa TIPO Identificador RESTOPARAMETROSFUNCION | EPSILON  
 ;
+
 CONTENIDOFUNCION ::= DECLARACION CUERPO 
 ;
+
 DECLARACION ::= DECLARACIONVARIABLE DECLARACION | DECLARACIONCONSTANTE DECLARACION | EPSILON 
 ;
+
 CUERPO ::=  EXPRESION CUERPO                    | 
             ESTRUCTURACONTROL CUERPO            |
             READ CUERPO                         | 
@@ -139,4 +129,71 @@ CUERPO ::=  EXPRESION CUERPO                    |
             WRITE                               |
             Break OperadorPuntoComa             |
             Continue OperadorPuntoComa          
+;
+
+EXPRESION ::=  EXPSIMPLE | EXPBOOLEANA | EXPARITMETRICA |  OperadorNegacion EXPBOOLEANA  
+;
+
+EXPSIMPLE ::= LITERAL | Identificador | 
+;
+
+EXPBOOLEANA ::= EXPRESIONES OperadorBooleano EXPRESIONES 
+;
+
+EXPARITMETRICA ::= EXPRESIONES OperadorAritmetico EXPRESIONES 
+;
+
+FOR ::= For OperadorParentesisIz EXPRESIONESFOR OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer 
+;
+
+EXPRESIONESFOR ::= DECLARACIONVARIABLE OperadorPuntoComa EXPRESIONES OperadorPuntoComa OperadorAritmetico Identificador 
+;
+
+CUERPOFOR ::=   EXPRESION CUERPO                    | 
+                ESTRUCTURACONTROL CUERPO            |
+                READ CUERPO                         | 
+                WRITE CUERPO                        | 
+                Break OperadorPuntoComa CUERPO      |
+                Continue OperadorPuntoComa CUERPO   |
+                DECLARACION CUERPO                  |
+                EXPRESION                           |
+                ESTRUCTURACONTROL                   |
+                READ                                |
+                WRITE                               |
+                Break OperadorPuntoComa             |
+                Continue OperadorPuntoComa          |
+                DECLARACION
+;
+
+WHILE ::= While OperadorParentesisIz EXPRESIONES OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer
+;
+
+SWITCH ::= Switch OperadorParentesisIz EXPARITMETRICA OperadorParentesisDer OperadorCorcheteIz CUERPOSWITCH OperadorCorcheteDer 
+;
+
+CUERPOSWITCH ::= CASE CUERPOSWITCHLISTA
+;
+
+CUERPOSWITCHLISTA ::= CASE CUERPOSWITCHLISTA | EPSILON 
+;
+
+CASE ::= Case literal OperadorDoblePunto CUERPOFOR Break OperadorPuntoComa 
+;
+
+DEFAULT ::= Default OperadorDoblePunto CUERPOFOR OperadorPuntoComa | EPSILON
+;
+
+IF ::= If OperadorParentesisIz EXPBOOLEANA OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer
+;
+
+ELSE ::= Else OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer | Else IF
+;
+
+IF_ELSE  ::= IF ELSE
+;
+
+EPSILON ::= {: RESULT = null; :}
+;
+
+ESTRUCTURACONTROL ::= IF | ELSE | IF_ELSE | FOR | WHILE | SWITCH 
 ;
