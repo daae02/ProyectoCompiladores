@@ -14,50 +14,185 @@ parser code
         return this.s;
 }
 :};
+terminal Identificador, OperadorAritmetico, OperadorBooleano, OperadorComa, OperadorCorcheteDer, OperadorCorcheteIz
+        OperadorDoblePunto, OperadorIgual, OperadorNegacion, OperadorParentesisDer, OperadorParentesisIz, OperadorPuntoComa,
+        Char, Int, Long, Short, Entero, Flotante, FlotanteExponente, Octal, OctalFlotante, Hexadecimal, HexadecimalFlotante, 
+        Caracter, Write, Read, For, While, Switch, If, Else, Void, Case, Default, Continue, Break, ERROR
+    ;
 
-terminal Main,Auto, Break, Case, Char, Const, Continue,
-        Default, Do, Double, Else, Enum, Extern,
-        Float, For, Goto, If, Int, Long, Register,
-        Return, Short, Signed, Sizeof, Static,
-        Struct, Switch, Typedef, Union, Unsigned,
-        Void, Volatile, While, OperadorPuntoComa,
-        OperadorComa, OperadorIncremento,
-        OperadorDecremento, OperadorIgualIgual,
-        OperadorBooleano, OperadorPregunta, OperadorIgual,
-        OperadorSuma, OperadorResta, OperadorMultiplicacion,
-        OperadorDivision, OperadorModulo, OperadorParentesisIz,
-        OperadorParentesisDer, OperadorParCuadradoIz, OperadorParCuadradoDer,
-        OperadorCorcheteIz, OperadorCorcheteDer, OperadorDoblePunto, OperadorPunto,
-        OperadorSumaAsignacion, OperadorRestaAsignacion, OperadorMultAsignacion,
-        OperadorDivAsignacion, OperadorDireccion, OperadorDesplDer, OperadorDesIz,
-        OperadorComplementoAUno, OperadorModuloAsignacion, OperadorANDAsignacion, 
-        OperadorXORAsignacion, OperadorORAsignacion, OperadorDesplIzAsig,
-        OperadorDesplDerAsig, OperadorMiembroPuntero, OperadorGato, Hilera,
-        Caracter, Identificador, Entero, Flotante, FlotanteExponente, Octal,
-        OctalFlotante, Hexadecimal, HexadecimalFlotante, Error;
-non terminal INICIO, SENTENCIA, DECLARACION, DECLARACION_FOR, IF, ELSE, IF_ELSE,
-    WHILE, DO_WHILE, FOR, SENTENCIA_BOOLEANA, SENTENCIA_FOR, EPSILON;
+non terminal INICIO, GLOBALES, GLOBALESLIST, LISTGLOBALES, LISTGLOBALESSEG, LISTGLOBALESTER, FUNCIONES, 
+            FUNCIONES, FUNCIONESLISTA, DECLARACIONVARIABLE, TIPO, LISTA, RESTOLISTA, ASIGNACION, DECLARACIONCONSTANTE, 
+            LITERAL, WRITE, PARAMETROSWRITE, RESTOPARAMETROSWRITE, READ, PARAMETROSREAD, FUNCION, TIPOFUNCION, 
+            PARAMETROSFUNCION, RESTOPARAMETROSFUNCION, CONTENIDOFUNCION, DECLARACION, CUERPO, EXPRESION, 
+            EXPSIMPLE, EXPBOOLEANA, EXPARITMETRICA, FOR, EXPRESIONESFOR, CUERPOFOR, WHILE, SWITCH, CUERPOSWITCH,
+            CUERPOSWITCHLISTA, CASE, DEFAULT, IF, ELSE, IF_ELSE, EPSILON, ESTRUCTURACONTROL
+    ;
 
-start with INICIO;
-
-INICIO ::= 
-    Switch;
-EPSILON ::= {: RESULT = null; :};
-SENTENCIA ::= 
-    SENTENCIA DECLARACION |
-    DECLARACION |
-    SENTENCIA IF | 
-    IF |
-    SENTENCIA IF_ELSE |
-    IF_ELSE |
-    SENTENCIA WHILE |
-    WHILE |
-    SENTENCIA DO_WHILE
-    DO_WHILE |
-    SENTENCIA FOR |
-    FOR
+start with INICIO
 ;
 
-IF ::= If OperadorParentesisIz SENTENCIA_BOOLEANA OperadorParentesisDer OperadorCorcheteIz SENTENCIA OperadorCorcheteDer;
-ELSE ::= Else OperadorCorcheteIz SENTENCIA OperadorCorcheteDer | Else IF;
-IF_ELSE  ::= IF ELSE;
+INICIO ::= GLOBALES DECLARACIONCONSTANTE FUNCIONES 
+;
+
+GLOBALES ::= GLOBALESLIST GLOBALES | EPSILON 
+;
+GLOBALESLIST ::=  TIPO LISTGLOBALES 
+;
+
+LISTGLOBALES ::= Identificador LISTGLOBALESSEG 
+;
+LISTGLOBALESSEG ::=  OperadorIgual LITERAL LISTGLOBALESTER | OperadorComa LISTGLOBALES| OperadorPuntoComa 
+;
+LISTGLOBALESTER ::= OperadorComa LISTGLOBALES | OperadorPuntoComa 
+;
+
+FUNCIONES ::= FUNCION FUNCIONESLISTA 
+;
+
+FUNCIONESLISTA ::= FUNCION FUNCIONESLISTA | EPSILON 
+;
+
+DECLARACIONVARIABLE ::= 
+    TIPO LISTA OperadorPuntoComa
+;
+
+TIPO ::= 
+    Char  |
+    Int   |
+    Long  |
+    Short
+;
+
+LISTA ::=
+    ASIGNACION RESTOLISTA
+;
+
+RESTOLISTA ::=
+    OperadorComa ASIGNACION RESTOLISTA | EPSILON
+;
+
+ASIGNACION ::= 
+    Identificador | Identificador OperadorIgual LITERAL | Identificador OperadorAritmetico LITERAL
+;
+
+DECLARACIONCONSTANTE ::= 
+    Const TIPO Identificador OperadorIgual LITERAL OperadorPuntoComa
+;
+
+LITERAL ::=
+    Entero | Flotante | FlotanteExponente | Octal | OctalFlotante | Hexadecimal | HexadecimalFlotante | Caracter 
+;
+
+WRITE ::= Write OperadorParentesisIz PARAMETROSWRITE OperadorParentesisDer OperadorPuntoComa
+;
+
+PARAMETROSWRITE ::= EXPRESION RESTOPARAMETROSWRITE 
+;
+
+RESTOPARAMETROSWRITE ::= OperadorComa EXPRESION RESTOPARAMETROSWRITE | EPSILON
+;
+
+READ ::= Read OperadorParentesisIz PARAMETROSREAD OperadorParentesisDer OperadorPuntoComa
+;
+
+PARAMETROSREAD ::= Identificador | EPSILON
+;
+
+FUNCION ::= TIPOFUNCION Identificador OperadorParentesisIz PARAMETROSFUNCION OperadorParentesisDer OperadorCorcheteIz CONTENIDOFUNCION OperadorCorcheteDer
+;
+
+TIPOFUNCION ::= TIPO | Void
+;
+
+PARAMETROSFUNCION ::= TIPO Identificador RESTOPARAMETROSFUNCION | EPSILON  
+;
+
+RESTOPARAMETROSFUNCION ::= OperadorComa TIPO Identificador RESTOPARAMETROSFUNCION | EPSILON  
+;
+
+CONTENIDOFUNCION ::= DECLARACION CUERPO 
+;
+
+DECLARACION ::= DECLARACIONVARIABLE DECLARACION | DECLARACIONCONSTANTE DECLARACION | EPSILON 
+;
+
+CUERPO ::=  EXPRESION CUERPO                    | 
+            ESTRUCTURACONTROL CUERPO            |
+            READ CUERPO                         | 
+            WRITE CUERPO                        | 
+            Break OperadorPuntoComa CUERPO      |
+            Continue OperadorPuntoComa CUERPO   |
+            EXPRESION                           |
+            ESTRUCTURACONTROL                   |
+            READ                                |
+            WRITE                               |
+            Break OperadorPuntoComa             |
+            Continue OperadorPuntoComa          
+;
+
+EXPRESION ::=  EXPSIMPLE | EXPBOOLEANA | EXPARITMETRICA |  OperadorNegacion EXPBOOLEANA  
+;
+
+EXPSIMPLE ::= LITERAL | Identificador | 
+;
+
+EXPBOOLEANA ::= EXPRESIONES OperadorBooleano EXPRESIONES 
+;
+
+EXPARITMETRICA ::= EXPRESIONES OperadorAritmetico EXPRESIONES 
+;
+
+FOR ::= For OperadorParentesisIz EXPRESIONESFOR OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer 
+;
+
+EXPRESIONESFOR ::= DECLARACIONVARIABLE OperadorPuntoComa EXPRESIONES OperadorPuntoComa OperadorAritmetico Identificador 
+;
+
+CUERPOFOR ::=   EXPRESION CUERPO                    | 
+                ESTRUCTURACONTROL CUERPO            |
+                READ CUERPO                         | 
+                WRITE CUERPO                        | 
+                Break OperadorPuntoComa CUERPO      |
+                Continue OperadorPuntoComa CUERPO   |
+                DECLARACION CUERPO                  |
+                EXPRESION                           |
+                ESTRUCTURACONTROL                   |
+                READ                                |
+                WRITE                               |
+                Break OperadorPuntoComa             |
+                Continue OperadorPuntoComa          |
+                DECLARACION
+;
+
+WHILE ::= While OperadorParentesisIz EXPRESIONES OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer
+;
+
+SWITCH ::= Switch OperadorParentesisIz EXPARITMETRICA OperadorParentesisDer OperadorCorcheteIz CUERPOSWITCH OperadorCorcheteDer 
+;
+
+CUERPOSWITCH ::= CASE CUERPOSWITCHLISTA
+;
+
+CUERPOSWITCHLISTA ::= CASE CUERPOSWITCHLISTA | EPSILON 
+;
+
+CASE ::= Case literal OperadorDoblePunto CUERPOFOR Break OperadorPuntoComa 
+;
+
+DEFAULT ::= Default OperadorDoblePunto CUERPOFOR OperadorPuntoComa | EPSILON
+;
+
+IF ::= If OperadorParentesisIz EXPBOOLEANA OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer
+;
+
+ELSE ::= Else OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer | Else IF
+;
+
+IF_ELSE  ::= IF ELSE
+;
+
+EPSILON ::= {: RESULT = null; :}
+;
+
+ESTRUCTURACONTROL ::= IF | ELSE | IF_ELSE | FOR | WHILE | SWITCH 
+;

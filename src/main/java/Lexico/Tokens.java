@@ -11,6 +11,7 @@ package Lexico;
  */
 public enum Tokens {
     OperadorBooleano,
+    OperadorAritmetico,
     Auto,
     Break,
     Case,
