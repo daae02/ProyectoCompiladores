@@ -4,10 +4,9 @@ import java_cup.runtime.Symbol;
 %class LexerCup
 %type java_cup.runtime.Symbol
 %cup
-$full
+%full
 %line
 %char
-%unicode
 L=[a-zA-Z_]+
 D=[0-9]+
 H=[0-9a-fA-F]+
@@ -136,17 +135,16 @@ while {return new Symbol(sym.While, yyline, yychar, yytext());}
 "->" {return new Symbol(sym.OperadorMiembroPuntero, yyline, yychar, yytext());}
 "#" {return new Symbol(sym.OperadorGato, yyline, yychar, yytext());}
 
-\"(\\\"|[^\"])+\" | \"\" {lexeme=yytext(); return Hilera;}
-'[^']' | '\\[^']+' {lexeme=yytext(); return Caracter;}
+\"(\\\"|[^\"])+\" | \"\" {return new Symbol(sym.Hilera, yyline, yychar, yytext());}
+'[^']' | '\\[^']+' {return new Symbol(sym.Caracter, yyline, yychar, yytext());}
 
-{identificador} {lexeme=yytext(); return Identificador;}
-{entero} {lexeme=yytext(); return Entero;}
-{flotante} {lexeme=yytext(); return Flotante;}
-{flotanteExponente} {lexeme=yytext(); return FlotanteExponente;}
-{octal} {lexeme=yytext(); return Octal;}
-{octalFlotante} {lexeme=yytext(); return OctalFlotante;}
-{hexadecimal} {lexeme=yytext(); return Hexadecimal;}
-{hexadecimalFlotante} {lexeme=yytext(); return HexadecimalFlotante;}
-{numero}{identificador} {lexeme = yytext(); return ERROR;}
-
-[^] {lexeme = yytext(); return ERROR;}
+{identificador} {return new Symbol(sym.Identificador, yyline, yychar, yytext());}
+{entero} {return new Symbol(sym.Entero, yyline, yychar, yytext());}
+{flotante} {return new Symbol(sym.Flotante, yyline, yychar, yytext());}
+{flotanteExponente} {return new Symbol(sym.FlotanteExponente, yyline, yychar, yytext());}
+{octal} {return new Symbol(sym.Octal, yyline, yychar, yytext());}
+{octalFlotante} {return new Symbol(sym.OctalFlotante, yyline, yychar, yytext());}
+{hexadecimal} {return new Symbol(sym.Hexadecimal, yyline, yychar, yytext());}
+{hexadecimalFlotante} {return new Symbol(sym.HexadecimalFlotante, yyline, yychar, yytext());}
+numero identificador {return new Symbol(sym.Error, yyline, yychar, yytext());}
+[^] {return new Symbol(sym.Error, yyline, yychar, yytext());}

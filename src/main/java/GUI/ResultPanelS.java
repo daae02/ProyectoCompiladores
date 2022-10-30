@@ -11,20 +11,19 @@ import java.awt.Color;
  *
  * @author DiegoAlvarez
  */
-public class ResultPanel extends javax.swing.JPanel {
+public class ResultPanelS extends javax.swing.JPanel {
 
     /**
      * Creates new form ResultsPanel
      */
-    public ResultPanel() {
+    public ResultPanelS() {
         initComponents();
     }
 
-    public ResultPanel(String aparitions, String lines, String token, String word) {
+    public ResultPanelS(String description, String lines, String word) {
         initComponents();
-        this.aparitions.setText(aparitions);
+        this.description.setText(description);
         this.lines.setText(lines);
-        this.token.setText(token);
         this.word.setText(word);
     }
 
@@ -38,8 +37,7 @@ public class ResultPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         word = new javax.swing.JLabel();
-        token = new javax.swing.JLabel();
-        aparitions = new javax.swing.JLabel();
+        description = new javax.swing.JLabel();
         lines = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -48,11 +46,8 @@ public class ResultPanel extends javax.swing.JPanel {
         word.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
         word.setText("token");
 
-        token.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
-        token.setText("TOKEN TYPE");
-
-        aparitions.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
-        aparitions.setText("0");
+        description.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
+        description.setText("Descripcion");
 
         lines.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
         lines.setText("[Lineas]");
@@ -66,27 +61,23 @@ public class ResultPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(word, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(token, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(aparitions, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(description, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lines, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(word)
-                .addComponent(token)
-                .addComponent(aparitions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lines, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JLabel aparitions;
+    public javax.swing.JLabel description;
     public javax.swing.JLabel lines;
-    public javax.swing.JLabel token;
     public javax.swing.JLabel word;
     // End of variables declaration//GEN-END:variables
 }

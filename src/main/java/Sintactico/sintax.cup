@@ -1,4 +1,4 @@
-package codigo;
+package Sintactico;
 
 import java_cup.runtime.Symbol;
 
@@ -14,7 +14,6 @@ parser code
         return this.s;
 }
 :};
-
 terminal Identificador, OperadorAritmetico, OperadorBooleano, OperadorComa, OperadorCorcheteDer, OperadorCorcheteIz
         OperadorDoblePunto, OperadorIgual, OperadorNegacion, OperadorParentesisDer, OperadorParentesisIz, OperadorPuntoComa,
         Char, Int, Long, Short, Entero, Flotante, FlotanteExponente, Octal, OctalFlotante, Hexadecimal, HexadecimalFlotante, 

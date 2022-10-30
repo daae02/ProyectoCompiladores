@@ -13,11 +13,6 @@
         </dependency>
         <dependency>
             <groupId>anydata</groupId>
-            <artifactId>Cup</artifactId>
-            <version>0</version>
-        </dependency>
-        <dependency>
-            <groupId>anydata</groupId>
             <artifactId>Cup11</artifactId>
             <version>0</version>
         </dependency>

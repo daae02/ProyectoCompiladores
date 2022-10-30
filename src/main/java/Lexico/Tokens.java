@@ -100,5 +100,6 @@ public enum Tokens {
     OctalFlotante,
     Hexadecimal,
     HexadecimalFlotante,
+    Reservadas,
     ERROR
 }
