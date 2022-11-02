@@ -1,11 +1,10 @@
-package codigo;
+package Sintactico;
 
 import java_cup.runtime.Symbol;
 
 parser code
 {:
     private Symbol s;
-    
     public void syntax_error(Symbol s){
         this.s = s;
     }
@@ -20,7 +19,7 @@ terminal Identificador, OperadorComa, OperadorCorcheteDer, OperadorCorcheteIz, O
         Char, Int, Long, Short, Entero, Flotante, FlotanteExponente, Octal, OctalFlotante, Hexadecimal, HexadecimalFlotante, 
         Caracter, Const, Write, Read, For, While, Switch, If, Else, Void, Case, Default, Continue, Break, Error,
         OperadorIgual,OperadorMayorIgual,OperadorMayor,OperadorMenorIgual,OperadorMenor,OperadorDesigual,OperadorORLazy,OperadorANDLazy,
-        OperadorXOR,OperadorOR,OperadorAND, OperadorMultiIgual,OperadorDivIgual,OperadorModIgual,
+        OperadorXOR,OperadorOR,OperadorAND, OperadorMultiIgual,OperadorDivIgual,OperadorModIgual, 
         OperadorIncremental,OperadorDecremental,OperadorMas,OperadorMenos,OperadorMultiplicacion,OperadorDivision,OperadorModulo,OperadorMasIgual,OperadorMenosIgual, OperadorIgualIgual
 ;
 
@@ -64,7 +63,7 @@ GLOBCONS ::= DECLARACIONVARIABLE | DECLARACIONCONSTANTE
 ;
 
 DECLARACIONVARIABLE ::= 
-    TIPO LISTA OperadorPuntoComa 
+    TIPO LISTA OperadorPuntoComa | error OperadorPuntoComa {:     errores.add(new ErrorSintactico(parser.getS().value.toString(), "No se pudo declarar la variable"));:} 
 ;
 
 TIPO ::= 
