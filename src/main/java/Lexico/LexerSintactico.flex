@@ -81,7 +81,7 @@ while {return new Symbol(sym.While, yyline, yychar, yytext());}
 "|" {return new Symbol(sym.OperadorOR, yyline, yychar, yytext());}
 "&" {return new Symbol(sym.OperadorAND, yyline, yychar, yytext());}
 
-"!" {return new Symbol(sym.OperadorNegacion, yyline, yychar, yytext());}
+"!" {return new Symbol(sym.OperadorNegacion, yyline, yychar, yytext());} 
 
 "++" {return new Symbol(sym.OperadorIncremental, yyline, yychar, yytext());}
 "--" {return new Symbol(sym.OperadorDecremental, yyline, yychar, yytext());}

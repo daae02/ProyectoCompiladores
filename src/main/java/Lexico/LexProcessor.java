@@ -8,7 +8,7 @@ package Lexico;
 import GUI.ResultPanelL;
 import GUI.ResultsPanel;
 import GUI.Upload;
-import Sintactico.Sintax;
+import codigo.Sintax;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -119,7 +119,8 @@ public class LexProcessor {
                         s.parse();
                     } catch (Exception ex) {
                         Symbol sym = s.getS();
-                        System.out.println(String.valueOf(sym.right)+" "+String.valueOf(sym.left)+" "+String.valueOf(sym.parse_state)+" "+sym.value.toString());
+                        System.out.println("ENCONTRÓ ERROR");
+                        System.out.println(String.valueOf(sym.right)+" "+String.valueOf(sym.left)+" "+String.valueOf(sym.parse_state)+" ");
                     }
                     showErrors(0,0,filename);
                     return;
