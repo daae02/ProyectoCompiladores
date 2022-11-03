@@ -33,6 +33,15 @@ public class ResultsPanel extends javax.swing.JFrame {
         cont.add(word);
         ScrollLexico.add(cont);
     }
+    public void addWords(ResultPanelS word, javax.swing.JPanel cont,Color col){
+        word.word.setForeground(col);
+        cont.add(word);
+        scrollSintactico.add(cont);      
+    }
+    public void addWords(ResultPanelS word, JPanel cont) {
+        cont.add(word);
+        scrollSintactico.add(cont);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,32 +52,18 @@ public class ResultsPanel extends javax.swing.JFrame {
     private void initComponents() {
 
         ScrollLexico = new java.awt.ScrollPane();
-        scrollDataPane1 = new java.awt.ScrollPane();
-        scrollDataPane2 = new java.awt.ScrollPane();
-        scrollDataPane3 = new java.awt.ScrollPane();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        ScrollSintactico = new java.awt.ScrollPane();
-        scrollDataPane4 = new java.awt.ScrollPane();
-        scrollDataPane5 = new java.awt.ScrollPane();
-        scrollDataPane6 = new java.awt.ScrollPane();
+        scrollSintactico = new java.awt.ScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-
-        ScrollLexico.add(scrollDataPane1);
-
-        scrollDataPane2.add(scrollDataPane3);
-
-        ScrollLexico.add(scrollDataPane2);
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 18)); // NOI18N
         jLabel1.setText("Lista de errores léxicos");
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 18)); // NOI18N
         jLabel2.setText("Lista de errores sintácticos");
-
-        scrollDataPane5.add(scrollDataPane6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,13 +72,15 @@ public class ResultsPanel extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ScrollLexico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ScrollSintactico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(0, 604, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(scrollSintactico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ScrollLexico, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -96,8 +93,8 @@ public class ResultsPanel extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ScrollSintactico, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(scrollSintactico, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -140,15 +137,9 @@ public class ResultsPanel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.ScrollPane ScrollLexico;
-    private java.awt.ScrollPane ScrollSintactico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private java.awt.ScrollPane scrollDataPane1;
-    private java.awt.ScrollPane scrollDataPane2;
-    private java.awt.ScrollPane scrollDataPane3;
-    private java.awt.ScrollPane scrollDataPane4;
-    private java.awt.ScrollPane scrollDataPane5;
-    private java.awt.ScrollPane scrollDataPane6;
+    private java.awt.ScrollPane scrollSintactico;
     // End of variables declaration//GEN-END:variables
 
 

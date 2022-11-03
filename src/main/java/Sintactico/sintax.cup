@@ -8,7 +8,6 @@ parser code
     public void syntax_error(Symbol s){
         this.s = s;
     }
-
     public Symbol getS(){
         return this.s;
 }
@@ -59,11 +58,11 @@ ESTRUCTURA ::= GLOBCONS ESTRUCTURA | FUNCIONES
 FUNCIONES ::= FUNCION FUNCIONES | FUNCION
 ;
 
-GLOBCONS ::= DECLARACIONVARIABLE | DECLARACIONCONSTANTE
+GLOBCONS ::= DECLARACIONVARIABLE | DECLARACIONCONSTANTE | error OperadorPuntoComa {: errores.add(new ErrorSintactico(parser.getS(), "Declaracion no valida")); :}
 ;
 
 DECLARACIONVARIABLE ::= 
-    TIPO LISTA OperadorPuntoComa | error OperadorPuntoComa {:     errores.add(new ErrorSintactico(parser.getS().value.toString(), "No se pudo declarar la variable"));:} 
+    TIPO LISTA OperadorPuntoComa
 ;
 
 TIPO ::= 
@@ -83,7 +82,7 @@ DECLARADORINICIALIZADOR ::= DECLARADOR | DECLARADOR OperadorIgual INICIALIZADOR
 INICIALIZADOR ::= EXPRESIONASIGNACION
 ;
 
-DECLARADOR ::= Identificador | OperadorParentesisIz DECLARADOR OperadorParentesisDer
+DECLARADOR ::= Identificador:id {:System.out.println("Encuentra: "+id);:} | OperadorParentesisIz DECLARADOR OperadorParentesisDer
 ;
 
 DECLARACIONCONSTANTE ::= 

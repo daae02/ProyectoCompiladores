@@ -5,22 +5,27 @@
  */
 package Sintactico;
 
+import java_cup.runtime.Symbol;
+
 /**
  *
  * @author DiegoAlvarez
  */
 public class ErrorSintactico {
-    String error;
-    String descripcion;
-    int linea;
-    public ErrorSintactico(String error, String descripcion) {
-        this.error = error;
-        this.descripcion = descripcion;
-        this.linea = 0;
-        
+    public String error;
+    public String descripcion;
+    public int fila;
+    public int col;
+
+
+    ErrorSintactico(Symbol s, String desc) {
+        this.error = s.value.toString();
+        this.descripcion = desc;
+        this.fila = s.left+1;
+        this.col = s.right+1;
     }
     @Override
     public String toString(){
-        return error+"\n"+descripcion+"\n"+linea;
+        return error+"\n"+descripcion+"\n"+fila+", "+col;
     }
 }
