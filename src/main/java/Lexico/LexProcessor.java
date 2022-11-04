@@ -6,8 +6,11 @@
 package Lexico;
 
 import GUI.ResultPanelL;
+import GUI.ResultPanelS;
 import GUI.ResultsPanel;
 import GUI.Upload;
+import Sintactico.ErrorSintactico;
+import static Sintactico.ListaErrores.errores;
 import Sintactico.Sintax;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -84,21 +87,34 @@ public class LexProcessor {
             JOptionPane.INFORMATION_MESSAGE,
             new ImageIcon(getClass().getResource(icon)));
     }
-    private void showErrors(int h,int w, String filename){
-        if (errors.size() > 0){
+    private void showErrors(int h,int w, String filename, int sErrors){
+        if (errors.size()+sErrors > 0){
             panel = new ResultsPanel();
             panel.setTitle("Tabla de Errores de "+ filename);
             panel.setLocation(w, h);
-            javax.swing.JPanel cont = new javax.swing.JPanel();
-            cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
-            panel.addWords(new ResultPanelL("Apariciones","Lineas","Identificador","Token"),cont);
-            for (int i = 0; i < errors.size(); i++) {
-                panel.addWords(createPanel(errors.get(i)),cont,Color.RED);
+            if (errors.size() > 0 ){
+                javax.swing.JPanel cont = new javax.swing.JPanel();
+                cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
+                panel.addWords(new ResultPanelL("Apariciones","Lineas","Identificador","Token"),cont);
+                for (int i = 0; i < errors.size(); i++) {
+                    panel.addWords(createPanel(errors.get(i)),cont,Color.RED);
+                }  
+            }
+            if (sErrors  > 0 ){
+                System.out.println("Entra");
+                javax.swing.JPanel cont = new javax.swing.JPanel();
+                cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
+                panel.addWords(new ResultPanelS("Token","Descripción","Lineas"),cont);
+                for (int i = 0; i < errores.size(); i++) {
+                    ErrorSintactico e = errores.get(i);
+                    panel.addWords(new ResultPanelS(e.error,e.descripcion,e.fila+", "+e.col),cont,Color.RED);
+                }  
             }
             panel.setVisible(true);
             sendMessage("Se han encontrado errores.\n No se ha podido compilar.","/cancel.png", filename);
             return;
         }
+        
         sendMessage("Compilado con éxito.","/checked.png",filename);
     }
     public void simpleAnalisis(String path){
@@ -114,14 +130,17 @@ public class LexProcessor {
                 Tokens  tokens = lexer.yylex();
                 if (tokens == null){
                     Sintax s;
+                    errores = new ArrayList();
                     s = new Sintax(new LexerCup(new StringReader(content)));
                     try {
                         s.parse();
                     } catch (Exception ex) {
                         Symbol sym = s.getS();
-                        System.out.println(String.valueOf(sym.right)+" "+String.valueOf(sym.left)+" "+String.valueOf(sym.parse_state)+" "+sym.value.toString());
+                        System.out.println("ENCONTRÓ ERROR");
+                        System.out.println(String.valueOf(sym.right+1)+" "+String.valueOf(sym.left+1)+" "+String.valueOf(sym.value.toString())+" ");
                     }
-                    showErrors(0,0,filename);
+                    System.out.println(errores.toString());
+                    showErrors(0,0,filename, errores.size());
                     return;
                 }
                 else{

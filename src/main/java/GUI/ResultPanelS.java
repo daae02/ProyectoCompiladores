@@ -20,7 +20,7 @@ public class ResultPanelS extends javax.swing.JPanel {
         initComponents();
     }
 
-    public ResultPanelS(String description, String lines, String word) {
+    public ResultPanelS(String word, String description, String lines) {
         initComponents();
         this.description.setText(description);
         this.lines.setText(lines);
@@ -50,7 +50,7 @@ public class ResultPanelS extends javax.swing.JPanel {
         description.setText("Descripcion");
 
         lines.setFont(new java.awt.Font("Segoe UI Historic", 1, 12)); // NOI18N
-        lines.setText("[Lineas]");
+        lines.setText("Linea, Columna");
         lines.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
