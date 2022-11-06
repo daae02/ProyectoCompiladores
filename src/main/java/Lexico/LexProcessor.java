@@ -107,7 +107,7 @@ public class LexProcessor {
                 panel.addWords(new ResultPanelS("Token","Descripción","Lineas"),cont);
                 for (int i = 0; i < errores.size(); i++) {
                     ErrorSintactico e = errores.get(i);
-                    panel.addWords(new ResultPanelS(e.error,e.descripcion,e.fila+", "+e.col),cont,Color.RED);
+                    panel.addWords(new ResultPanelS(e.error,e.descripcion,e.fila+""),cont,Color.RED);
                 }  
             }
             panel.setVisible(true);
@@ -135,9 +135,9 @@ public class LexProcessor {
                     try {
                         s.parse();
                     } catch (Exception ex) {
-                        Symbol sym = s.getS();
+                        /*Symbol sym = s.getS();
                         System.out.println("ENCONTRÓ ERROR");
-                        System.out.println(String.valueOf(sym.right+1)+" "+String.valueOf(sym.left+1)+" "+String.valueOf(sym.value.toString())+" ");
+                        System.out.println(String.valueOf(sym.right+1)+" "+String.valueOf(sym.left+1)+" "+String.valueOf(sym.value.toString())+" ");*/
                     }
                     System.out.println(errores.toString());
                     showErrors(0,0,filename, errores.size());

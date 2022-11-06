@@ -7,10 +7,17 @@ parser code
     private Symbol s;
     public void syntax_error(Symbol s){
         this.s = s;
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".");
     }
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error síntactico irrecuperable en la Línea " + 
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + 
+        " no reconocido."); 
+    } 
     public Symbol getS(){
         return this.s;
-}
+    }
 :};
 
 terminal Identificador, OperadorComa, OperadorCorcheteDer, OperadorCorcheteIz, OperadorNegacion,
@@ -18,7 +25,7 @@ terminal Identificador, OperadorComa, OperadorCorcheteDer, OperadorCorcheteIz, O
         Char, Int, Long, Short, Entero, Flotante, FlotanteExponente, Octal, OctalFlotante, Hexadecimal, HexadecimalFlotante, 
         Caracter, Const, Write, Read, For, While, Switch, If, Else, Void, Case, Default, Continue, Break, Error,
         OperadorIgual,OperadorMayorIgual,OperadorMayor,OperadorMenorIgual,OperadorMenor,OperadorDesigual,OperadorORLazy,OperadorANDLazy,
-        OperadorXOR,OperadorOR,OperadorAND, OperadorMultiIgual,OperadorDivIgual,OperadorModIgual, 
+        OperadorXOR,OperadorOR,OperadorAND, OperadorMultiIgual,OperadorDivIgual,OperadorModIgual, NewLine,
         OperadorIncremental,OperadorDecremental,OperadorMas,OperadorMenos,OperadorMultiplicacion,OperadorDivision,OperadorModulo,OperadorMasIgual,OperadorMenosIgual, OperadorIgualIgual
 ;
 
@@ -31,7 +38,13 @@ non terminal INICIO, GLOBALES, GLOBALESLIST, LISTGLOBALES, LISTGLOBALESSEG, LIST
             EXPRESION, OPERADORASIGNACION, EXPRESIONASIGNACION, LAZYOREXPRESION, LAZYANDEXPRESION, OREXPRESION, XOREXPRESION, 
             ANDEXPRESION, EXPRESIONIGUALDAD, EXPRESIONRELACIONAL, EXPRESIONADITIVA, EXPRESIONMULTIPLICATIVA, EXPRESIONUNARIA, LISTAARGUMENTOSEXPRESIONES, EXPRESIONPOSTFIJA,
             EXPRESIONPRIMARIA, AUXINICIO, DECG, EXTERNO, DECLARADOR, INICIALIZADOR, DECLARADORINICIALIZADOR, GLOBCONS, ESTRUCTURA,
-            DECLARADORINICIALIZADORCONSTANTE, LISTACONSTANTE;
+            DECLARADORINICIALIZADORCONSTANTE, LISTACONSTANTE, DECLARACIONEXTERNA,
+            DECLARACION_EXTERNA, ESPECIFICADORES_DE_DECLARACION, LISTA_DECLARACION, DECLARACION_COMPUESTA,
+EXPRESION_PRIMARIA, EXPRESION_POSTFIJA, LISTA_ARGUMENTOS_EXPRESIONES, EXPRESION_UNARIA , EXPRESION_MULTIPLICATIVA, EXPRESION_ADITIVA, 
+EXPRESION_RELACIONAL, EXPRESION_IGUALDAD, EXPRESION_AND, EXPRESION_XOR, EXPRESION_OR, EXPRESION_LAZY_AND, EXPRESION_LAZY_OR, EXPRESION_ASIGNACION, OPERADOR_ASIGNACION , LISTA_DECLARADORES_INICIALIZADORES, ESPECIFICADORES_DECLARACION,
+DECLARADOR_INICIALIZADOR, ESPECIFICADOR_TIPO, LISTA_CUALIFICADOR_ESPECIFICADOR, CUALIFICADOR_TIPO , LISTA_TIPOS_PARAMETROS , LISTA_PARAMETROS , DECLARACION_PARAMETRO , LISTA_IDENTIFICADORES, NOMBRE_TIPO,
+DECLARADOR_ABSTRACTO, DECLARADOR_ABSTRACTO_DIRECTO , LISTA_INICIALIZADORES , SENTENCIA , SENTENCIA_ETIQUETADA, SENTENCIA_COMPUESTA, LISTA_DECLARACIONES, LISTA_SENTENCIAS, SENTENCIA_EXPRESION , SENTENCIA_SELECCION , SENTENCIA_ITERACION , SENTENCIA_SALTO 
+            ;
 
 precedence left OperadorCorcheteIz, OperadorCorcheteDer, OperadorParentesisIz, OperadorParentesisDer, OperadorIncremental, OperadorDecremental;
 precedence left OperadorNegacion;
@@ -49,247 +62,274 @@ precedence right OperadorIgual, OperadorMultiIgual, OperadorDivIgual, OperadorMo
 start with INICIO
 ;
 
-INICIO ::= ESTRUCTURA 
+INICIO ::= DECLARACION_EXTERNA | INICIO DECLARACION_EXTERNA 
 ;
 
-ESTRUCTURA ::= GLOBCONS ESTRUCTURA | FUNCIONES
+DECLARACION_EXTERNA ::= DECLARACION | FUNCION
 ;
 
-FUNCIONES ::= FUNCION FUNCIONES | FUNCION
+FUNCION ::= ESPECIFICADORES_DECLARACION DECLARADOR OperadorParentesisIz LISTA_TIPOS_PARAMETROS OperadorParentesisDer SENTENCIA_COMPUESTA
+        |   error OperadorCorcheteDer {: errores.add(new ErrorSintactico(parser.getS(), "Declaración de función no válida")); :} 
 ;
 
-GLOBCONS ::= DECLARACIONVARIABLE | DECLARACIONCONSTANTE | error OperadorPuntoComa {: errores.add(new ErrorSintactico(parser.getS(), "Declaracion no valida")); :}
-;
-
-DECLARACIONVARIABLE ::= 
-    TIPO LISTA OperadorPuntoComa
-;
-
-TIPO ::= 
-    Char  |
-    Int   |
-    Long  |
-    Short
-;
-
-LISTA ::=
-    DECLARADORINICIALIZADOR | LISTA OperadorComa DECLARADORINICIALIZADOR
-;
-
-DECLARADORINICIALIZADOR ::= DECLARADOR | DECLARADOR OperadorIgual INICIALIZADOR
-;
-
-INICIALIZADOR ::= EXPRESIONASIGNACION
-;
-
-DECLARADOR ::= Identificador:id {:System.out.println("Encuentra: "+id);:} | OperadorParentesisIz DECLARADOR OperadorParentesisDer
-;
-
-DECLARACIONCONSTANTE ::= 
-    Const TIPO LISTACONSTANTE OperadorPuntoComa
-;
-
-LISTACONSTANTE ::=
-    DECLARADORINICIALIZADORCONSTANTE | LISTACONSTANTE OperadorComa DECLARADORINICIALIZADORCONSTANTE
-;
-
-DECLARADORINICIALIZADORCONSTANTE ::= DECLARADOR OperadorIgual INICIALIZADOR
+EXPRESION_PRIMARIA 
+        ::= Identificador
+        |   LITERAL 
+        |   OperadorParentesisIz EXPRESION OperadorParentesisDer
 ;
 
 LITERAL ::=
     Entero | Flotante | FlotanteExponente | Octal | OctalFlotante | Hexadecimal | HexadecimalFlotante | Caracter 
 ;
 
-WRITE ::= Write OperadorParentesisIz PARAMETROSWRITE OperadorParentesisDer OperadorPuntoComa
+EXPRESION_POSTFIJA 
+        ::= EXPRESION_PRIMARIA
+        |   EXPRESION_POSTFIJA OperadorParCuadradoIz EXPRESION OperadorParCuadradoDer
+        |   EXPRESION_POSTFIJA OperadorParentesisIz OperadorParentesisDer
+        |   EXPRESION_POSTFIJA OperadorParentesisIz LISTA_ARGUMENTOS_EXPRESIONES OperadorParentesisDer
+        |   EXPRESION_POSTFIJA OperadorIncremental
+        |   EXPRESION_POSTFIJA OperadorDecremental
 ;
 
-PARAMETROSWRITE ::= EXPRESION RESTOPARAMETROSWRITE 
+LISTA_ARGUMENTOS_EXPRESIONES 
+        ::= EXPRESION_ASIGNACION 
+        |   LISTA_ARGUMENTOS_EXPRESIONES OperadorComa EXPRESION_ASIGNACION
 ;
 
-RESTOPARAMETROSWRITE ::= OperadorComa EXPRESION RESTOPARAMETROSWRITE | 
+EXPRESION_UNARIA 
+        ::= EXPRESION_POSTFIJA
+        |   OperadorIncremental EXPRESION_UNARIA
+        |   OperadorDecremental EXPRESION_UNARIA
 ;
 
-READ ::= Read OperadorParentesisIz PARAMETROSREAD OperadorParentesisDer OperadorPuntoComa
+EXPRESION_MULTIPLICATIVA
+        ::= EXPRESION_UNARIA 
+        |   EXPRESION_MULTIPLICATIVA OperadorMultiplicacion EXPRESION_UNARIA
+        |   EXPRESION_MULTIPLICATIVA OperadorDivision EXPRESION_UNARIA
+        |   EXPRESION_MULTIPLICATIVA OperadorModulo EXPRESION_UNARIA
 ;
 
-PARAMETROSREAD ::= Identificador | 
+EXPRESION_ADITIVA
+    	::= EXPRESION_MULTIPLICATIVA
+	    |   EXPRESION_ADITIVA OperadorMas EXPRESION_MULTIPLICATIVA
+	    |   EXPRESION_ADITIVA OperadorMenos EXPRESION_MULTIPLICATIVA
 ;
 
-FUNCION ::= TIPO DECLARADOR OperadorParentesisIz PARAMETROSFUNCION OperadorParentesisDer OperadorCorcheteIz CONTENIDOFUNCION OperadorCorcheteDer |
-            Void TIPO DECLARADOR OperadorParentesisIz PARAMETROSFUNCION OperadorParentesisDer OperadorCorcheteIz CONTENIDOFUNCION OperadorCorcheteDer
+EXPRESION_RELACIONAL
+        ::= EXPRESION_ADITIVA
+        |   EXPRESION_RELACIONAL OperadorMenor EXPRESION_ADITIVA
+        |   EXPRESION_RELACIONAL OperadorMayor EXPRESION_ADITIVA
+        |   EXPRESION_RELACIONAL OperadorMenorIgual EXPRESION_ADITIVA
+        |   EXPRESION_RELACIONAL OperadorMayorIgual EXPRESION_ADITIVA
 ;
 
-PARAMETROSFUNCION ::= TIPO Identificador RESTOPARAMETROSFUNCION |
+EXPRESION_IGUALDAD
+        ::= EXPRESION_RELACIONAL
+        |   EXPRESION_IGUALDAD OperadorIgualIgual EXPRESION_RELACIONAL
+        |   EXPRESION_IGUALDAD OperadorDesigual EXPRESION_RELACIONAL
 ;
 
-RESTOPARAMETROSFUNCION ::= OperadorComa TIPO Identificador RESTOPARAMETROSFUNCION | 
+EXPRESION_AND
+        ::= EXPRESION_IGUALDAD
+        |   EXPRESION_AND OperadorAND EXPRESION_IGUALDAD
 ;
 
-CONTENIDOFUNCION ::= DECLARACION CUERPOFUNCION | CUERPOFUNCION
+EXPRESION_XOR
+        ::= EXPRESION_AND
+        |   EXPRESION_XOR OperadorXOR EXPRESION_AND
 ;
 
-DECLARACION ::= DECLARACIONVARIABLE DECLARACION | DECLARACIONCONSTANTE DECLARACION
+EXPRESION_OR
+        ::= EXPRESION_XOR
+        |   EXPRESION_OR OperadorOR EXPRESION_XOR
 ;
 
-CUERPOFUNCION ::=  CUERPOFUNCION EXPRESION                    | 
-                   CUERPOFUNCION ESTRUCTURACONTROL            |
-                   CUERPOFUNCION READ                         | 
-                   CUERPOFUNCION WRITE                        | 
-                   CUERPOFUNCION Break OperadorPuntoComa      |
-                   CUERPOFUNCION Continue OperadorPuntoComa   |
-                   EXPRESION                                  |
-                   ESTRUCTURACONTROL                          |
-                   READ                                       |
-                   WRITE                                      |
-                   Break OperadorPuntoComa                    |
-                   Continue OperadorPuntoComa          
+EXPRESION_LAZY_AND
+        ::= EXPRESION_OR
+        |   EXPRESION_LAZY_AND OperadorANDLazy EXPRESION_OR
 ;
 
-EXPRESIONPRIMARIA 
-        ::= Identificador
-        | LITERAL 
-        | OperadorParentesisIz EXPRESION OperadorParentesisDer
+EXPRESION_LAZY_OR
+        ::= EXPRESION_LAZY_AND
+        |   EXPRESION_LAZY_OR OperadorORLazy EXPRESION_LAZY_AND
 ;
 
-EXPRESIONPOSTFIJA 
-        ::= EXPRESIONPRIMARIA
-        | EXPRESIONPOSTFIJA OperadorParCuadradoIz EXPRESION OperadorParCuadradoDer
-        | EXPRESIONPOSTFIJA OperadorParentesisIz OperadorParentesisDer
-        | EXPRESIONPOSTFIJA OperadorParentesisIz LISTAARGUMENTOSEXPRESIONES OperadorParentesisDer
-        | EXPRESIONPOSTFIJA OperadorIncremental
-        | EXPRESIONPOSTFIJA OperadorDecremental
+EXPRESION_ASIGNACION
+        ::= EXPRESION_LAZY_OR
+        |   EXPRESION_UNARIA OPERADOR_ASIGNACION EXPRESION_ASIGNACION
 ;
 
-LISTAARGUMENTOSEXPRESIONES 
-        ::= EXPRESIONASIGNACION 
-        | LISTAARGUMENTOSEXPRESIONES OperadorComa EXPRESIONASIGNACION
-;
-
-EXPRESIONUNARIA 
-        ::= EXPRESIONPOSTFIJA
-        | OperadorIncremental EXPRESIONUNARIA
-        | OperadorDecremental EXPRESIONUNARIA
-;
-
-EXPRESIONMULTIPLICATIVA
-	::= EXPRESIONUNARIA 
-	| EXPRESIONMULTIPLICATIVA OperadorMultiplicacion EXPRESIONUNARIA
-	| EXPRESIONMULTIPLICATIVA OperadorDivision EXPRESIONUNARIA
-	| EXPRESIONMULTIPLICATIVA OperadorModulo EXPRESIONUNARIA
-	;
-
-EXPRESIONADITIVA
-	::= EXPRESIONMULTIPLICATIVA
-	| EXPRESIONADITIVA OperadorMas EXPRESIONMULTIPLICATIVA
-	| EXPRESIONADITIVA OperadorMenos EXPRESIONMULTIPLICATIVA
-	;
-
-EXPRESIONRELACIONAL
-	::= EXPRESIONADITIVA
-	| EXPRESIONRELACIONAL OperadorMenor EXPRESIONADITIVA
-	| EXPRESIONRELACIONAL OperadorMayor EXPRESIONADITIVA
-	| EXPRESIONRELACIONAL OperadorMenorIgual EXPRESIONADITIVA
-	| EXPRESIONRELACIONAL OperadorMayorIgual EXPRESIONADITIVA
-	;
-
-EXPRESIONIGUALDAD
-	::= EXPRESIONRELACIONAL
-	| EXPRESIONIGUALDAD OperadorIgualIgual EXPRESIONRELACIONAL
-	| EXPRESIONIGUALDAD OperadorDesigual EXPRESIONRELACIONAL
-	;
-
-ANDEXPRESION
-	::= EXPRESIONIGUALDAD
-	| ANDEXPRESION OperadorAND EXPRESIONIGUALDAD
-	;
-
-XOREXPRESION
-	::= ANDEXPRESION
-	| XOREXPRESION OperadorXOR ANDEXPRESION
-	;
-
-OREXPRESION
-	::= XOREXPRESION
-	| OREXPRESION OperadorOR XOREXPRESION
-	;
-
-LAZYANDEXPRESION
-	::= OREXPRESION
-	| LAZYANDEXPRESION OperadorANDLazy OREXPRESION
-	;
-
-LAZYOREXPRESION
-	::= LAZYANDEXPRESION
-        | LAZYOREXPRESION OperadorORLazy LAZYANDEXPRESION
-	;
-
-EXPRESIONASIGNACION
-	::= LAZYOREXPRESION
-	| EXPRESIONUNARIA OPERADORASIGNACION EXPRESIONASIGNACION
-;
-
-OPERADORASIGNACION ::= 
-                        OperadorIgual       | 
-                        OperadorMasIgual    |
-                        OperadorMenosIgual  |
-                        OperadorMultiIgual  |
-                        OperadorDivIgual    |
-                        OperadorModIgual    
+OPERADOR_ASIGNACION 
+        ::= OperadorIgual       
+        |   OperadorMasIgual    
+        |   OperadorMenosIgual  
+        |   OperadorMultiIgual  
+        |   OperadorDivIgual    
+        |   OperadorModIgual    
 ;
 
 EXPRESION
-	::= EXPRESIONASIGNACION
-        | OperadorNegacion EXPRESIONASIGNACION
+        ::= EXPRESION_ASIGNACION
+        |   EXPRESION OperadorComa EXPRESION_ASIGNACION
+        |   OperadorNegacion EXPRESION_ASIGNACION
 ;
 
-FOR ::= For OperadorParentesisIz EXPRESIONESFOR OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer 
+DECLARACION 
+        ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa
+        |   ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa
+        |   error OperadorPuntoComa {: errores.add(new ErrorSintactico(parser.getS(), "Declaración no válida")); :}
 ;
 
-EXPRESIONESFOR ::= DECLARACIONVARIABLE OperadorPuntoComa EXPRESION OperadorPuntoComa EXPRESION
+ESPECIFICADORES_DECLARACION 
+        ::= ESPECIFICADOR_TIPO ESPECIFICADORES_DECLARACION
+        |   ESPECIFICADOR_TIPO
+        |   CUALIFICADOR_TIPO
+        |   CUALIFICADOR_TIPO ESPECIFICADORES_DECLARACION
 ;
 
-CUERPOFOR ::=   CUERPOFOR EXPRESION                         | 
-                CUERPOFOR ESTRUCTURACONTROL                 |
-                CUERPOFOR READ                              | 
-                CUERPOFOR WRITE                             | 
-                CUERPOFOR Break OperadorPuntoComa           |
-                CUERPOFOR Continue OperadorPuntoComa        |
-                CUERPOFOR DECLARACION                       |
-                EXPRESION                                   |
-                ESTRUCTURACONTROL                           |
-                READ                                        |
-                WRITE                                       |
-                Break OperadorPuntoComa                     |
-                Continue OperadorPuntoComa                  |
-                DECLARACION
+LISTA_DECLARADORES_INICIALIZADORES
+        ::= DECLARADOR_INICIALIZADOR 
+        |   LISTA_DECLARADORES_INICIALIZADORES OperadorComa DECLARADOR_INICIALIZADOR 
 ;
 
-WHILE ::= While OperadorParentesisIz EXPRESION OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer
+DECLARADOR_INICIALIZADOR 
+        ::= DECLARADOR 
+        |   DECLARADOR OperadorIgual INICIALIZADOR 
 ;
 
-SWITCH ::= Switch OperadorParentesisIz EXPARITMETRICA OperadorParentesisDer OperadorCorcheteIz CUERPOSWITCH OperadorCorcheteDer 
+ESPECIFICADOR_TIPO 
+        ::= Void 
+        |   Char
+        |   Int
+        |   Long
+        |   Short
 ;
 
-CUERPOSWITCH ::= CASE CUERPOSWITCHLISTA DEFAULT
+LISTA_CUALIFICADOR_ESPECIFICADOR
+	::= ESPECIFICADOR_TIPO LISTA_CUALIFICADOR_ESPECIFICADOR
+	|   ESPECIFICADOR_TIPO
+	|   CUALIFICADOR_TIPO LISTA_CUALIFICADOR_ESPECIFICADOR
+	|   CUALIFICADOR_TIPO
 ;
 
-CUERPOSWITCHLISTA ::= CASE CUERPOSWITCHLISTA | 
+CUALIFICADOR_TIPO
+        ::= Const
+;      
+
+DECLARADOR 
+        ::= Identificador:id {:System.out.println("Encuentra: "+id);:} 
+        |   OperadorParentesisIz DECLARADOR OperadorParentesisDer  
+        |   DECLARADOR OperadorParCuadradoIz EXPRESION_LAZY_OR OperadorParCuadradoDer
+        |   DECLARADOR OperadorParCuadradoIz OperadorParCuadradoDer
+        |   DECLARADOR OperadorParentesisIz LISTA_TIPOS_PARAMETROS OperadorParentesisDer
+        |   DECLARADOR OperadorParentesisIz LISTA_IDENTIFICADORES OperadorParentesisDer
+        |   DECLARADOR OperadorParentesisIz OperadorParentesisDer
 ;
 
-CASE ::= Case LITERAL OperadorDoblePunto CUERPOFOR Break OperadorPuntoComa
+LISTA_TIPOS_PARAMETROS 
+        ::= LISTA_PARAMETROS 
 ;
 
-DEFAULT ::= Default OperadorDoblePunto CUERPOFOR Break OperadorPuntoComa | 
+LISTA_PARAMETROS 
+        ::= DECLARACION_PARAMETRO 
+        |   LISTA_PARAMETROS OperadorComa DECLARACION_PARAMETRO
 ;
 
-IF ::= If OperadorParentesisIz EXPBOOLEANA OperadorParentesisDer OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer
+DECLARACION_PARAMETRO 
+        ::= ESPECIFICADORES_DECLARACION DECLARADOR 
+        |   ESPECIFICADORES_DECLARACION DECLARADOR_ABSTRACTO
+        |   ESPECIFICADORES_DECLARACION
 ;
 
-ELSE ::= Else OperadorCorcheteIz CUERPOFOR OperadorCorcheteDer | Else IF
+LISTA_IDENTIFICADORES
+        ::= Identificador
+        |   LISTA_IDENTIFICADORES OperadorComa Identificador
 ;
 
-IF_ELSE  ::= IF ELSE
+NOMBRE_TIPO 
+        ::= LISTA_CUALIFICADOR_ESPECIFICADOR 
+        |   LISTA_CUALIFICADOR_ESPECIFICADOR DECLARADOR_ABSTRACTO
 ;
 
-ESTRUCTURACONTROL ::= IF | IF_ELSE | FOR | WHILE | SWITCH 
+DECLARADOR_ABSTRACTO
+    ::= DECLARADOR_ABSTRACTO_DIRECTO
+;
+
+DECLARADOR_ABSTRACTO_DIRECTO
+    ::= OperadorParentesisIz DECLARADOR_ABSTRACTO OperadorParentesisDer 
+    |   OperadorParCuadradoIz OperadorParCuadradoDer 
+    |   OperadorParCuadradoIz EXPRESION_LAZY_OR OperadorParCuadradoDer 
+    |   DECLARADOR_ABSTRACTO_DIRECTO OperadorParCuadradoIz OperadorParCuadradoDer
+    |   DECLARADOR_ABSTRACTO_DIRECTO OperadorParCuadradoIz EXPRESION_LAZY_OR OperadorParCuadradoDer
+    |   OperadorParentesisIz OperadorParentesisDer
+    |   OperadorParentesisIz LISTA_TIPOS_PARAMETROS OperadorParentesisDer
+    |   DECLARADOR_ABSTRACTO_DIRECTO OperadorParentesisIz OperadorParentesisDer
+    |   DECLARADOR_ABSTRACTO_DIRECTO OperadorParentesisIz LISTA_TIPOS_PARAMETROS OperadorParentesisDer
+;
+
+INICIALIZADOR 
+    ::= EXPRESION_ASIGNACION
+    |   OperadorCorcheteIz LISTA_INICIALIZADORES OperadorCorcheteDer  
+    |   OperadorCorcheteIz LISTA_INICIALIZADORES OperadorComa OperadorCorcheteDer  
+
+;
+
+LISTA_INICIALIZADORES 
+    ::= INICIALIZADOR
+    |   LISTA_INICIALIZADORES OperadorComa INICIALIZADOR
+;
+
+SENTENCIA 
+    ::= SENTENCIA_ETIQUETADA
+    |   SENTENCIA_COMPUESTA
+    |   SENTENCIA_EXPRESION
+    |   SENTENCIA_SELECCION
+    |   SENTENCIA_ITERACION
+    |   SENTENCIA_SALTO
+    |   error OperadorCorcheteDer {: errores.add(new ErrorSintactico(parser.getS(), "Sentencia no válida")); :}
+;
+
+SENTENCIA_ETIQUETADA
+    ::= Identificador OperadorDoblePunto SENTENCIA
+    |   Case EXPRESION_LAZY_OR OperadorDoblePunto SENTENCIA
+    |   Default OperadorDoblePunto SENTENCIA
+;
+
+SENTENCIA_COMPUESTA
+    ::= OperadorCorcheteIz OperadorCorcheteDer 
+    |   OperadorCorcheteIz LISTA_SENTENCIAS OperadorCorcheteDer 
+    |   OperadorCorcheteIz LISTA_DECLARACIONES OperadorCorcheteDer 
+    |   OperadorCorcheteIz LISTA_DECLARACIONES LISTA_SENTENCIAS OperadorCorcheteDer 
+;
+
+LISTA_DECLARACIONES
+    ::= DECLARACION 
+    |   LISTA_DECLARACIONES DECLARACION
+;
+
+LISTA_SENTENCIAS
+    ::= SENTENCIA
+    |   LISTA_SENTENCIAS SENTENCIA
+; 
+
+SENTENCIA_EXPRESION 
+    ::= OperadorPuntoComa 
+    |   EXPRESION OperadorPuntoComa
+;
+
+SENTENCIA_SELECCION 
+    ::= If OperadorParentesisIz EXPRESION OperadorParentesisDer SENTENCIA
+    |   If OperadorParentesisIz EXPRESION OperadorParentesisDer SENTENCIA Else SENTENCIA
+    |   Switch OperadorParentesisIz EXPRESION OperadorParentesisDer SENTENCIA
+;
+
+SENTENCIA_ITERACION 
+    ::= While OperadorParentesisIz EXPRESION OperadorParentesisDer SENTENCIA
+    |   For OperadorParentesisIz SENTENCIA_EXPRESION SENTENCIA_EXPRESION OperadorParentesisDer SENTENCIA
+    |   For OperadorParentesisIz SENTENCIA_EXPRESION SENTENCIA_EXPRESION EXPRESION OperadorParentesisDer SENTENCIA
+;
+
+SENTENCIA_SALTO 
+    ::= Continue OperadorPuntoComa
+    |   Break OperadorPuntoComa
 ;
