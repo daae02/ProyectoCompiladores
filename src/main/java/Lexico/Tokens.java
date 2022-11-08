@@ -101,5 +101,7 @@ public enum Tokens {
     Hexadecimal,
     HexadecimalFlotante,
     Reservadas,
-    ERROR
+    ERROR,
+    Write,
+    Read
 }

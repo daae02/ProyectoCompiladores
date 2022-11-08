@@ -24,7 +24,7 @@ hexadecimalFlotante = [-+]?(0[xX]{H}\.{H}[pP][-+]?{D}|0[xX][0-9a-fA-F]*\.{H}[pP]
 
 numero = {entero} | {flotante} | {flotanteExponente} | {octal} | {octalFlotante} | {hexadecimal} | {hexadecimalFlotante}
 
-espacio=[\ \t\r\n]+
+espacio=[ \t\r\n]+
 %{
     private Symbol symbol(int type, Object value){
         return new Symbol(type, yyline, yycolumn, value);
@@ -64,6 +64,8 @@ short {return new Symbol(sym.Short, yyline, yycolumn, yytext());}
 switch {return new Symbol(sym.Switch, yyline, yycolumn, yytext());}
 void {return new Symbol(sym.Void, yyline, yycolumn, yytext());}
 while {return new Symbol(sym.While, yyline, yycolumn, yytext());}
+write {return new Symbol(sym.Write, yyline, yycolumn, yytext());}
+read {return new Symbol(sym.Read, yyline, yycolumn, yytext());}
 {espacio} {/*Ignore*/}
 "//".* {/*Ignore*/}
 "/*".* {/*Ignore*/}     

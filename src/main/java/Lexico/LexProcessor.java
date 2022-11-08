@@ -107,7 +107,7 @@ public class LexProcessor {
                 panel.addWords(new ResultPanelS("Token","Descripción","Lineas"),cont);
                 for (int i = 0; i < errores.size(); i++) {
                     ErrorSintactico e = errores.get(i);
-                    panel.addWords(new ResultPanelS(e.error,e.descripcion,e.fila+""),cont,Color.RED);
+                    panel.addWords(new ResultPanelS(e.error,e.descripcion,e.fila+", "+e.col),cont,Color.RED);
                 }  
             }
             panel.setVisible(true);
