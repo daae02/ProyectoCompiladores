@@ -71,9 +71,13 @@ DECLARACION_EXTERNA
     |   DECLARACION_FUNCION
 ;
 
-DECLARACION_FUNCION 
-    ::= ESPECIFICADORES_DECLARACION DECLARADOR OperadorParentesisIz LISTA_TIPOS_PARAMETROS OperadorParentesisDer SENTENCIA_COMPUESTA
-    |   Void DECLARADOR OperadorParentesisIz LISTA_TIPOS_PARAMETROS OperadorParentesisDer SENTENCIA_COMPUESTA
+DECLARACION_FUNCION
+    ::= ESPECIFICADORES_DECLARACION Identificador OperadorParentesisIz LISTA_PARAMETROS OperadorParentesisDer SENTENCIA_COMPUESTA
+    |   Void Identificador OperadorParentesisIz LISTA_PARAMETROS OperadorParentesisDer SENTENCIA_COMPUESTA
+    |   ESPECIFICADORES_DECLARACION Identificador OperadorParentesisIz LISTA_IDENTIFICADORES OperadorParentesisDer SENTENCIA_COMPUESTA
+    |   Void Identificador OperadorParentesisIz LISTA_IDENTIFICADORES OperadorParentesisDer SENTENCIA_COMPUESTA
+    |   ESPECIFICADORES_DECLARACION Identificador OperadorParentesisIz OperadorParentesisDer SENTENCIA_COMPUESTA
+    |   Void Identificador OperadorParentesisIz OperadorParentesisDer SENTENCIA_COMPUESTA
     |   error OperadorCorcheteDer {: errores.add(new ErrorSintactico(parser.getS(), "Declaración de función no válida")); :} 
 ;
 
@@ -344,9 +348,9 @@ SENTENCIA_SELECCION
 ;
 
 SENTENCIA_ITERACION 
-    ::= While OperadorParentesisIz EXPRESION OperadorParentesisDer SENTENCIA
-    |   For OperadorParentesisIz SENTENCIA_EXPRESION SENTENCIA_EXPRESION OperadorParentesisDer SENTENCIA
-    |   For OperadorParentesisIz SENTENCIA_EXPRESION SENTENCIA_EXPRESION EXPRESION OperadorParentesisDer SENTENCIA
+    ::= While OperadorParentesisIz EXPRESION OperadorParentesisDer SENTENCIA_COMPUESTA
+    |   For OperadorParentesisIz SENTENCIA_EXPRESION SENTENCIA_EXPRESION OperadorParentesisDer SENTENCIA_COMPUESTA
+    |   For OperadorParentesisIz SENTENCIA_EXPRESION SENTENCIA_EXPRESION EXPRESION OperadorParentesisDer SENTENCIA_COMPUESTA
 ;
 
 SENTENCIA_SALTO 
