@@ -9,7 +9,9 @@ package Semantico;
  *
  * @author DiegoAlvarez
  */
-public class Dato {
-    public String tipo;
-    public String valor;
+public class RSTipo extends RegistroSemantico{
+    String tipo;
+    public RSTipo(String tipo){
+        this.tipo = tipo;
+    }
 }

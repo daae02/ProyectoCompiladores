@@ -9,8 +9,12 @@ package Semantico;
  *
  * @author DiegoAlvarez
  */
-public class DataObject extends RegistroSemantico {
-    public DOType tipo;
-    public int intValue;
-    public String idValue;
+public class RSIf extends RegistroSemantico{
+    String exitLabel;
+    String elseLabel;
+
+    public RSIf(String exitLabel, String elseLabel) {
+        this.exitLabel = exitLabel;
+        this.elseLabel = elseLabel;
+    }
 }

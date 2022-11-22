@@ -5,17 +5,17 @@
  */
 package Semantico;
 
-import java.util.LinkedHashMap;
-
 /**
  *
  * @author DiegoAlvarez
  */
-public class Funcion extends Dato{
-    public LinkedHashMap<String,String> parametros;
-
-    public Funcion() {
-        this.parametros = new LinkedHashMap();
+public class RSFor extends RegistroSemantico{
+    String exitLabel;
+    String testLabel;
+    String tFile;
+    public RSFor(String exitLabel, String testLabel) {
+        this.exitLabel = exitLabel;
+        this.testLabel = testLabel;
     }
-    
+
 }

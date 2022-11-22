@@ -9,7 +9,9 @@ package Semantico;
  *
  * @author DiegoAlvarez
  */
-public class Dato {
-    public String tipo;
-    public String valor;
+public class RSIdentificador extends RegistroSemantico{
+    String nombre;
+    public RSIdentificador(String nombre){
+        this.nombre = nombre;
+    }
 }

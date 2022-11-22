@@ -9,7 +9,6 @@ package Semantico;
  *
  * @author DiegoAlvarez
  */
-public class Dato {
-    public String tipo;
-    public String valor;
+public class Traductor {
+    
 }

@@ -10,7 +10,7 @@ package Semantico;
  * @author DiegoAlvarez
  */
 public enum DOType {
-    Constante,
-    DireccionMemoria,
-    DireccionRegistro
+    CONSTANTE,
+    DMEMORIA,
+    DREGISTRO
 }

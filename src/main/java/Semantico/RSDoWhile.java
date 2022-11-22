@@ -9,7 +9,11 @@ package Semantico;
  *
  * @author DiegoAlvarez
  */
-public class Dato {
-    public String tipo;
-    public String valor;
+public class RSDoWhile extends RegistroSemantico{
+    String doWhileLabel;
+
+    public RSDoWhile(String whileLabel) {
+        this.doWhileLabel = whileLabel;
+    }
+
 }

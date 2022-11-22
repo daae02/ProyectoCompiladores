@@ -9,7 +9,9 @@ package Semantico;
  *
  * @author DiegoAlvarez
  */
-public class Dato {
-    public String tipo;
-    public String valor;
+public class RSOperador extends RegistroSemantico{
+    String operador;
+    public RSOperador(String operador){
+        this.operador = operador;
+    }
 }

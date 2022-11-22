@@ -9,7 +9,7 @@ package Semantico;
  *
  * @author DiegoAlvarez
  */
-public class Dato {
-    public String tipo;
-    public String valor;
+public class RSDataObject extends RegistroSemantico {
+    public DOType tipo;
+    public String value;
 }
