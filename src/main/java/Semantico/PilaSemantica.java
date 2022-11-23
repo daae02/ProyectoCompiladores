@@ -13,17 +13,21 @@ import java.util.ArrayList;
  */
 public class PilaSemantica {
     public static ArrayList<RegistroSemantico> stack = new ArrayList();
+    
     public static RegistroSemantico peek(){
         return stack.get(stack.size()-1);
     }
+    
     public static RegistroSemantico pop(){
          RegistroSemantico aux =  stack.get(stack.size()-1);
          stack.remove(aux);
          return aux;
     }
+    
     public static void push(RegistroSemantico newSR){
         stack.add(newSR);
     }
+    
     public static RegistroSemantico search(RegistroSemantico SR){
         for (RegistroSemantico next : stack) {
             if (next.equals(SR))
