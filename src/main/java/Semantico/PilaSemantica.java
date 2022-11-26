@@ -31,4 +31,9 @@ public class PilaSemantica {
         }
         return null;
     }
+    public static void printArray() {
+        for (RegistroSemantico registroSemantico : stack) {
+            System.out.println(registroSemantico.toString());
+        }
+    }
 }

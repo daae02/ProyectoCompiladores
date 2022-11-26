@@ -11,6 +11,9 @@ package Semantico;
  */
 public class RSOperador extends RegistroSemantico{
     String operador;
+    
+    public RSOperador() {}
+    
     public RSOperador(String operador){
         this.operador = operador;
     }
