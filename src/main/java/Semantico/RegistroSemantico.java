@@ -10,4 +10,5 @@ package Semantico;
  * @author DiegoAlvarez
  */
 public class RegistroSemantico {
+    public String name;
 }

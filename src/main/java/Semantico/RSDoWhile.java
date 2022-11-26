@@ -14,6 +14,7 @@ public class RSDoWhile extends RegistroSemantico{
 
     public RSDoWhile(String whileLabel) {
         this.doWhileLabel = whileLabel;
+        this.name = "DoWhile";
     }
 
 }

@@ -28,11 +28,11 @@ public class PilaSemantica {
         stack.add(newSR);
     }
     
-    public static RegistroSemantico search(RegistroSemantico SR){
-        for (RegistroSemantico next : stack) {
-            if (next.equals(SR))
-                return next;
-        }
+    public static RegistroSemantico search(String required){
+        for (int i = stack.size()-1;i >= 0; i--) {
+            if (stack.get(i).name.equals(required))
+                return stack.get(i);
+        }           
         return null;
     }
 }

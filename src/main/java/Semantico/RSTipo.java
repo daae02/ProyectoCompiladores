@@ -13,5 +13,6 @@ public class RSTipo extends RegistroSemantico{
     String tipo;
     public RSTipo(String tipo){
         this.tipo = tipo;
+        this.name = "Tipo";
     }
 }

@@ -13,5 +13,6 @@ public class RSOperador extends RegistroSemantico{
     String operador;
     public RSOperador(String operador){
         this.operador = operador;
+        this.name = "Operador";
     }
 }
