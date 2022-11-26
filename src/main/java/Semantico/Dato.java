@@ -5,11 +5,15 @@
  */
 package Semantico;
 
+import java.util.Map;
+
 /**
  *
  * @author DiegoAlvarez
  */
 public class Dato {
+    public boolean funcion;
     public String tipo;
     public String valor;
+    public Map<String,Dato> parametros;
 }

@@ -16,6 +16,7 @@ public class PilaSemantica {
     
     public static RegistroSemantico peek(){
         return stack.get(stack.size()-1);
+        
     }
     
     public static RegistroSemantico pop(){
