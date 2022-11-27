@@ -5,7 +5,7 @@
  */
 package Semantico;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -15,5 +15,5 @@ public class Dato {
     public boolean funcion;
     public String tipo;
     public String valor;
-    public Map<String,Dato> parametros;
+    public LinkedHashMap<String,Dato> parametros;
 }
