@@ -6,7 +6,7 @@
 
 package Sintactico;
 
-import static Sintactico.ListaErrores.errores;
+import static Sintactico.ListaErroresSintactico.errores;
 import java_cup.runtime.Symbol;
 
 /** CUP v0.11a beta 20060608 generated parser.
