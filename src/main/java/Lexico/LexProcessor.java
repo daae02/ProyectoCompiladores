@@ -11,7 +11,7 @@ import GUI.ResultsPanel;
 import GUI.Upload;
 import Semantico.PilaSemantica;
 import Sintactico.ErrorSintactico;
-import static Sintactico.ListaErrores.errores;
+import static Sintactico.ListaErroresSintactico.errores;
 import Sintactico.Sintax;
 import java.awt.Color;
 import java.awt.Dimension;

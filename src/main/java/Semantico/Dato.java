@@ -5,11 +5,15 @@
  */
 package Semantico;
 
+import java.util.LinkedHashMap;
+
 /**
  *
  * @author DiegoAlvarez
  */
 public class Dato {
+    public boolean funcion;
     public String tipo;
     public String valor;
+    public LinkedHashMap<String,Dato> parametros;
 }

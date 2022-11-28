@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author DiegoAlvarez
  */
-public class ListaErrores {
+public class ListaErroresSintactico {
     public static ArrayList<ErrorSintactico> errores = new ArrayList<ErrorSintactico>();
     @Override
     public String toString(){
