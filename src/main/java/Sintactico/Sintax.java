@@ -8,7 +8,6 @@ package Sintactico;
 import java_cup.runtime.Symbol;
 import Semantico.Traductor;
 import Semantico.PilaSemantica;
-import static Sintactico.ListaErrores.errores;
 import static Sintactico.ListaErroresSintactico.errores;
 import java_cup.runtime.XMLElement;
 
@@ -1191,10 +1190,10 @@ class CUP$Sintax$actions {
           case 16: // LITERAL ::= Flotante 
             {
               Object RESULT =null;
-		int fleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).left;
-		int fright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
-		Object f = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
-		 Traductor.recuerdaConstante((String) f);  PilaSemantica.printArray(); 
+		int fleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object f = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaConstante((String) f); PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("LITERAL",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1203,10 +1202,10 @@ class CUP$Sintax$actions {
           case 17: // LITERAL ::= FlotanteExponente 
             {
               Object RESULT =null;
-		int feleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).left;
-		int feright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
-		Object fe = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
-		 Traductor.recuerdaConstante((String) fe);  PilaSemantica.printArray(); 
+		int feleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int feright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object fe = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaConstante((String) fe); PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("LITERAL",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1215,10 +1214,10 @@ class CUP$Sintax$actions {
           case 18: // LITERAL ::= Octal 
             {
               Object RESULT =null;
-		int oleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).left;
-		int oright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
-		Object o = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
-		 Traductor.recuerdaConstante((String) o);  PilaSemantica.printArray(); 
+		int oleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int oright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object o = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaConstante((String) o); PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("LITERAL",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1227,10 +1226,10 @@ class CUP$Sintax$actions {
           case 19: // LITERAL ::= OctalFlotante 
             {
               Object RESULT =null;
-		int oeleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).left;
-		int oeright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
-		Object oe = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
-		 Traductor.recuerdaConstante((String) oe);  PilaSemantica.printArray(); 
+		int oeleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int oeright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object oe = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaConstante((String) oe); PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("LITERAL",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1239,10 +1238,10 @@ class CUP$Sintax$actions {
           case 20: // LITERAL ::= Hexadecimal 
             {
               Object RESULT =null;
-		int hleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).left;
-		int hright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
-		Object h = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
-		 Traductor.recuerdaConstante((String) h);  PilaSemantica.printArray(); 
+		int hleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int hright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object h = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaConstante((String) h); PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("LITERAL",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1251,10 +1250,10 @@ class CUP$Sintax$actions {
           case 21: // LITERAL ::= HexadecimalFlotante 
             {
               Object RESULT =null;
-		int hfleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).left;
-		int hfright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
-		Object hf = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
-		 Traductor.recuerdaConstante((String) hf);  PilaSemantica.printArray(); 
+		int hfleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int hfright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object hf = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaConstante((String) hf); PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("LITERAL",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1263,10 +1262,10 @@ class CUP$Sintax$actions {
           case 22: // LITERAL ::= Caracter 
             {
               Object RESULT =null;
-		int cleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).left;
-		int cright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
-		Object c = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
-		 Traductor.recuerdaConstante((String) c);  PilaSemantica.printArray(); 
+		int cleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaConstante((String) c); PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("LITERAL",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;

@@ -25,6 +25,12 @@ public class ErrorSemantico {
         this.fila = s.left+1;
         this.col = s.right+1;
     }
+    ErrorSemantico(Symbol s, String desc, String name) {
+        this.error = name;
+        this.descripcion = desc;
+        this.fila = s.left+1;
+        this.col = s.right+1;
+    }
     @Override
     public String toString(){
         return error+"\n"+descripcion+"\n"+fila+", "+col;
