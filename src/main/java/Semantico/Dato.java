@@ -12,8 +12,13 @@ import java.util.LinkedHashMap;
  * @author DiegoAlvarez
  */
 public class Dato {
-    public boolean funcion;
+    public boolean funcion = false;
     public String tipo;
     public String valor;
-    public LinkedHashMap<String,Dato> parametros;
+    public LinkedHashMap<String,Dato> parametros = null;
+    
+    public void funcion(){
+        this.funcion = true;
+        this.parametros = new LinkedHashMap<>();
+    }
 }

@@ -197,7 +197,7 @@ public class Traductor {
         Dato tipoFuncion = new Dato();
         rsFuncion.dato = tipoFuncion;
         tipoFuncion.tipo = valorRetorno.tipo; //Guarda el tipo que retorna la funcion
-        tipoFuncion.funcion = true; //Si es una funcion
+        tipoFuncion.funcion(); //Si es una funcion
         
         PilaSemantica.push(rsFuncion);
     }

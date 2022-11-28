@@ -9,7 +9,6 @@ import java_cup.runtime.Symbol;
 import Semantico.Traductor;
 import Semantico.PilaSemantica;
 import static Sintactico.ListaErroresSintactico.errores;
-import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
   */
