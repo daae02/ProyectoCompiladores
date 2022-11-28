@@ -6,7 +6,6 @@
 package Semantico;
 
 import java_cup.runtime.Symbol;
-import org.graalvm.compiler.nodes.util.ConstantFoldUtil;
 
 /**
  *
@@ -203,7 +202,23 @@ public class Traductor {
         PilaSemantica.push(rsFuncion);
     }
     
+    public static void recuerdaIDParametro(String token){
+        RSTipo tipoParametro = (RSTipo)PilaSemantica.pop();
+        RSFuncion rsFuncion = (RSFuncion) PilaSemantica.peek();
+        Dato dato = new Dato();
+        dato.tipo = tipoParametro.tipo; //sacar el tipo del parametro
+        rsFuncion.dato.parametros.put(token, dato);
+    }
     
+    public static void insertarFuncion(Symbol symbol){
+        RSFuncion rsFuncion = (RSFuncion)PilaSemantica.pop();
+        if (!TablaSimbolos.tabla.containsKey(rsFuncion.name)) {
+            TablaSimbolos.tabla.put(rsFuncion.name, rsFuncion.dato);
+        } else {
+            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Funcion ya definida", rsFuncion.name);
+            ListaErroresSemantico.erroresSemanticos.add(error);
+        }
+    }
   
 }
 
