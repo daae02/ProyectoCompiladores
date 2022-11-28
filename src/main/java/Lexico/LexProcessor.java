@@ -87,10 +87,11 @@ public class LexProcessor {
             new ImageIcon(getClass().getResource(icon)));
     }
     private void showErrors(int h,int w, String filename, int sErrors){
-        if (errors.size()+erroresSemanticos.size()+sErrors > 0){
+        if (errores.size()+erroresSemanticos.size()+sErrors > 0){
             panel = new ResultsPanel();
             panel.setTitle("Tabla de Errores de "+ filename);
             panel.setLocation(w, h);
+            showSymbols();
             if (sErrors > 0 ){
                 javax.swing.JPanel cont = new javax.swing.JPanel();
                 cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
@@ -127,7 +128,10 @@ public class LexProcessor {
     }
     public void showSymbols(){
         javax.swing.JPanel cont = new javax.swing.JPanel();
+        panel.addWords(new Simbolo("IDENTIFICADOR","CLASE","PARAMETROS","TIPO", "VALOR"),cont);
         cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
+        System.out.println("Tabla");
+        System.out.println(tabla.toString());
         for (String clave:tabla.keySet()) {
             String nombre = clave;
             String tipo = tabla.get(clave).tipo;
@@ -142,7 +146,7 @@ public class LexProcessor {
             }
             else 
                 clase = "VARIABLE";  
-            panel.addWords(new Simbolo(nombre,clase,par,tipo, valor),cont,Color.RED);
+            panel.addWords(new Simbolo(nombre,clase,par,tipo, valor),cont);
         }
     }
     public void simpleAnalisis(String path){
@@ -170,6 +174,7 @@ public class LexProcessor {
                     }
                     System.out.println(errores.toString());
                     showErrors(0,0,filename, errors.size());
+                    
                     return;
                 }
                 else{
