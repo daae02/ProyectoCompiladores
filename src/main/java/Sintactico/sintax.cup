@@ -85,7 +85,7 @@ DECLARACION_FUNCION
 ;
 
 EXPRESION_PRIMARIA 
-    ::= Identificador:id {: Traductor.recuerdaVariable((String) e, id) ; PilaSemantica.printArray(); :}
+    ::= Identificador:identificador {: Traductor.recuerdaVariable((String) identificador, parser.getS()) ; PilaSemantica.printArray(); :}
     |   LITERAL 
     |   OperadorParentesisIz EXPRESION OperadorParentesisDer
 ;
@@ -203,8 +203,8 @@ EXPRESION
 ;
 
 DECLARACION 
-    ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa:OpPuntoComa {: System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(OpPuntoComa); System.out.println("Tabla: " + TablaSimbolos.tabla); :}
-    |   ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa {: System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(); System.out.println("Tabla: "); :}
+    ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa:OpPuntoComa {: System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(parser.getS()); System.out.println("Tabla: " + TablaSimbolos.tabla); :}
+    |   ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa {: System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(parser.getS()); System.out.println("Tabla: " + TablaSimbolos.tabla); :}
     |   error OperadorPuntoComa {: errores.add(new ErrorSintactico(parser.getS(), "Declaración no válida")); :}
 ;
 

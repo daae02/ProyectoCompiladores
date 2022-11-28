@@ -6,9 +6,11 @@
 package Sintactico;
 
 import java_cup.runtime.Symbol;
-import Semantico.Traductor;
 import Semantico.PilaSemantica;
+import Semantico.Traductor;
+import Semantico.TablaSimbolos;
 import static Sintactico.ListaErroresSintactico.errores;
+import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
   */
@@ -1004,9 +1006,6 @@ public class Sintax extends java_cup.runtime.lr_parser {
     public Symbol getS(){
         return this.s;
     }
-    public void test() {
-        System.out.println("Testing");
-    }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -1150,7 +1149,10 @@ class CUP$Sintax$actions {
           case 12: // EXPRESION_PRIMARIA ::= Identificador 
             {
               Object RESULT =null;
-
+		int identificadorleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int identificadorright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object identificador = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaVariable((String) identificador, parser.getS()) ; PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("EXPRESION_PRIMARIA",8, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1180,7 +1182,7 @@ class CUP$Sintax$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
-		 Traductor.recuerdaConstante((String) e); PilaSemantica.printArray(); 
+		 Traductor.recuerdaConstante((String) e) ; PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("LITERAL",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1750,7 +1752,10 @@ class CUP$Sintax$actions {
           case 76: // DECLARACION ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa 
             {
               Object RESULT =null;
-
+		int OpPuntoComaleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int OpPuntoComaright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object OpPuntoComa = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(parser.getS()); System.out.println("Tabla: " + TablaSimbolos.tabla); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1759,7 +1764,7 @@ class CUP$Sintax$actions {
           case 77: // DECLARACION ::= ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa 
             {
               Object RESULT =null;
-
+		 System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(parser.getS()); System.out.println("Tabla: " + TablaSimbolos.tabla); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1849,7 +1854,10 @@ class CUP$Sintax$actions {
           case 87: // ESPECIFICADOR_TIPO ::= Char 
             {
               Object RESULT =null;
-
+		int char_tokenleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int char_tokenright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object char_token = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaTipo((String) char_token) ; PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("ESPECIFICADOR_TIPO",26, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1858,7 +1866,10 @@ class CUP$Sintax$actions {
           case 88: // ESPECIFICADOR_TIPO ::= Int 
             {
               Object RESULT =null;
-
+		int int_tokenleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int int_tokenright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object int_token = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaTipo((String) int_token) ; PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("ESPECIFICADOR_TIPO",26, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1867,7 +1878,10 @@ class CUP$Sintax$actions {
           case 89: // ESPECIFICADOR_TIPO ::= Long 
             {
               Object RESULT =null;
-
+		int long_tokenleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int long_tokenright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object long_token = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaTipo((String) long_token) ; PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("ESPECIFICADOR_TIPO",26, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1876,7 +1890,10 @@ class CUP$Sintax$actions {
           case 90: // ESPECIFICADOR_TIPO ::= Short 
             {
               Object RESULT =null;
-
+		int short_tokenleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
+		int short_tokenright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
+		Object short_token = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
+		 Traductor.recuerdaTipo((String) short_token) ; PilaSemantica.printArray(); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("ESPECIFICADOR_TIPO",26, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
@@ -1933,7 +1950,7 @@ class CUP$Sintax$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
-		System.out.println("Encuentra: "+id);
+		 Traductor.recuerdaId((String) id) ; PilaSemantica.printArray(); System.out.println("Encuentra: "+id); 
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("DECLARADOR",5, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
