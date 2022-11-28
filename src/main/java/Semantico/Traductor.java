@@ -161,6 +161,20 @@ public class Traductor {
     public static String getEnsamblador() {
         return ensamblador;
     }
+    
+    public static void recuerdaFuncion(String token){
+        RSFuncion rsFuncion = new RSFuncion();
+        rsFuncion.name = token; //Guarda el nombre de la funcion
+        RSTipo valorRetorno = (RSTipo) PilaSemantica.pop();
+        Dato tipoFuncion = new Dato();
+        rsFuncion.dato = tipoFuncion;
+        tipoFuncion.tipo = valorRetorno.tipo; //Guarda el tipo que retorna la funcion
+        tipoFuncion.funcion = true; //Si es una funcion
+        
+        PilaSemantica.push(rsFuncion);
+    }
+    
+    
   
 }
 

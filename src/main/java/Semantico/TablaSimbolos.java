@@ -6,6 +6,7 @@
 package Semantico;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import java.util.Set;
  * @author DiegoAlvarez
  */
 public class TablaSimbolos {
-    Map<String,Dato> tabla;
+    public static Map<String,Dato> tabla = new LinkedHashMap<>();
     public int largest(){
         int maximo = 0;
         for (String clave:tabla.keySet()) {
