@@ -5,6 +5,9 @@
  */
 package Semantico;
 
+import java_cup.runtime.Symbol;
+import org.graalvm.compiler.nodes.util.ConstantFoldUtil;
+
 /**
  *
  * @author DiegoAlvarez
@@ -27,7 +30,7 @@ public class Traductor {
         
     }
     
-    public static void insertarTS () {
+    public static void insertarTS (Symbol symbol) {
         
         RSTipo rs_tipo = (RSTipo) PilaSemantica.search("Tipo");
         RSIdentificador rs_id;
@@ -38,7 +41,10 @@ public class Traductor {
                 dato = new Dato();
                 dato.tipo = rs_tipo.tipo;
                 TablaSimbolos.tabla.put(rs_id.nombre, dato);
-            } // else error
+            } else {
+                ErrorSemantico error = new ErrorSemantico(symbol, "Error: Variable no definida", rs_id.nombre);
+                ListaErroresSemantico.erroresSemanticos.add(error);
+            }
         }
         
     }
@@ -88,10 +94,9 @@ public class Traductor {
         rs_do2 = (RSDataObject) PilaSemantica.pop();
         rs_operador = (RSOperador) PilaSemantica.pop();
         rs_do1 = (RSDataObject) PilaSemantica.pop();
-        
-
+       
         if (rs_do2.tipo == DOType.CONSTANTE && rs_do1.tipo == DOType.CONSTANTE) {
-            String resultado = "0"; //calcular resultado
+            String resultado = constantFolding(rs_do1.value, rs_do2.value, rs_operador.operador);
             rs_do.tipo = DOType.CONSTANTE;
             rs_do.value = resultado;
         } else {
@@ -102,6 +107,30 @@ public class Traductor {
         
         PilaSemantica.push(rs_do);
 
+    }
+    
+    public static String constantFolding (String value1, String value2, String operador) {
+        String resultado = "";
+        int num = 0;
+        switch(operador) {
+            case "+":
+                num = Integer.parseInt(value1) + Integer.parseInt(value2);
+                break;
+            case "-":
+                num = Integer.parseInt(value1) - Integer.parseInt(value2);
+                break;
+            case "*":
+                num = Integer.parseInt(value1) * Integer.parseInt(value2);
+                break;
+            case "/":
+                num = Integer.parseInt(value1) / Integer.parseInt(value2);
+                break;
+            case "%":
+                num = Integer.parseInt(value1) % Integer.parseInt(value2);
+                break;
+        }
+        resultado = Integer.toString(num);
+        return resultado;
     }
     
     public static void startIf(int linea){

@@ -1,8 +1,9 @@
 package Sintactico;
 
 import java_cup.runtime.Symbol;
-import Semantico.Traductor;
 import Semantico.PilaSemantica;
+import Semantico.Traductor;
+import Semantico.TablaSimbolos;
 
 parser code
 {:
@@ -19,9 +20,6 @@ parser code
     } 
     public Symbol getS(){
         return this.s;
-    }
-    public void test() {
-        System.out.println("Testing");
     }
 :};
 
@@ -88,12 +86,12 @@ DECLARACION_FUNCION
 
 EXPRESION_PRIMARIA 
     ::= Identificador
-    |   LITERAL
+    |   LITERAL 
     |   OperadorParentesisIz EXPRESION OperadorParentesisDer
 ;
 
 LITERAL 
-    ::= Entero:e {: Traductor.recuerdaConstante((String) e); PilaSemantica.printArray(); :}
+    ::= Entero:e {: Traductor.recuerdaConstante((String) e) ; PilaSemantica.printArray(); :}
     |   Flotante:f {: Traductor.recuerdaConstante((String) f); PilaSemantica.printArray(); :}
     |   FlotanteExponente:fe {: Traductor.recuerdaConstante((String) fe); PilaSemantica.printArray(); :}
     |   Octal:o {: Traductor.recuerdaConstante((String) o); PilaSemantica.printArray(); :}
@@ -205,8 +203,8 @@ EXPRESION
 ;
 
 DECLARACION 
-    ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa 
-    |   ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa
+    ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa:OpPuntoComa {: System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(OpPuntoComa); System.out.println("Tabla: " + TablaSimbolos.tabla); :}
+    |   ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa {: System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(); System.out.println("Tabla: "); :}
     |   error OperadorPuntoComa {: errores.add(new ErrorSintactico(parser.getS(), "Declaración no válida")); :}
 ;
 
@@ -224,14 +222,14 @@ LISTA_DECLARADORES_INICIALIZADORES
 
 DECLARADOR_INICIALIZADOR 
     ::= DECLARADOR 
-    |   DECLARADOR OperadorIgual INICIALIZADOR
+    |   DECLARADOR OperadorIgual INICIALIZADOR 
 ;
 
 ESPECIFICADOR_TIPO 
-    ::= Char
-    |   Int
-    |   Long
-    |   Short
+    ::= Char:char_token {: Traductor.recuerdaTipo((String) char_token) ; PilaSemantica.printArray(); :}
+    |   Int:int_token {: Traductor.recuerdaTipo((String) int_token) ; PilaSemantica.printArray(); :}
+    |   Long:long_token {: Traductor.recuerdaTipo((String) long_token) ; PilaSemantica.printArray(); :}
+    |   Short:short_token {: Traductor.recuerdaTipo((String) short_token) ; PilaSemantica.printArray(); :}
 ;
 
 LISTA_CUALIFICADOR_ESPECIFICADOR
@@ -246,7 +244,7 @@ CUALIFICADOR_TIPO
 ;      
 
 DECLARADOR 
-    ::= Identificador:id {:System.out.println("Encuentra: "+id);:} 
+    ::= Identificador:id {: Traductor.recuerdaId((String) id) ; PilaSemantica.printArray(); System.out.println("Encuentra: "+id); :} 
     |   OperadorParentesisIz DECLARADOR OperadorParentesisDer  
     |   DECLARADOR OperadorParCuadradoIz EXPRESION_LAZY_OR OperadorParCuadradoDer
     |   DECLARADOR OperadorParCuadradoIz OperadorParCuadradoDer

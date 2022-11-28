@@ -42,7 +42,7 @@ public class TablaSimbolos {
                 tabla.get(clave).parametros.get(nombres).tipo+" / "+nombres+"\t").reduce(par, String::concat);}
             else 
                 res+="VARIABLE\t";
-            res+=nombre+tipo+par+"\n";
+            res+=nombre+tipo+par+"\n";  
         }
         return res;
     }
