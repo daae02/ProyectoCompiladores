@@ -7,30 +7,28 @@ package Lexico;
 
 import GUI.ResultPanelL;
 import GUI.ResultPanelS;
+import GUI.ResultPanelSemantic;
 import GUI.ResultsPanel;
+import GUI.Simbolo;
 import GUI.Upload;
-import Semantico.PilaSemantica;
+import Semantico.ErrorSemantico;
 import Sintactico.ErrorSintactico;
 import static Sintactico.ListaErroresSintactico.errores;
+import static Semantico.ListaErroresSemantico.erroresSemanticos;
+import static Semantico.TablaSimbolos.tabla;
 import Sintactico.Sintax;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java_cup.runtime.Symbol;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -89,11 +87,11 @@ public class LexProcessor {
             new ImageIcon(getClass().getResource(icon)));
     }
     private void showErrors(int h,int w, String filename, int sErrors){
-        if (errors.size()+sErrors > 0){
+        if (errors.size()+erroresSemanticos.size()+sErrors > 0){
             panel = new ResultsPanel();
             panel.setTitle("Tabla de Errores de "+ filename);
             panel.setLocation(w, h);
-            if (errors.size() > 0 ){
+            if (sErrors > 0 ){
                 javax.swing.JPanel cont = new javax.swing.JPanel();
                 cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
                 panel.addWords(new ResultPanelL("Apariciones","Lineas","Identificador","Token"),cont);
@@ -101,7 +99,7 @@ public class LexProcessor {
                     panel.addWords(createPanel(errors.get(i)),cont,Color.RED);
                 }  
             }
-            if (sErrors  > 0 ){
+            if (errores.size()  > 0 ){
                 System.out.println("Entra");
                 javax.swing.JPanel cont = new javax.swing.JPanel();
                 cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
@@ -111,12 +109,41 @@ public class LexProcessor {
                     panel.addWords(new ResultPanelS(e.error,e.descripcion,e.fila+", "+e.col),cont,Color.RED);
                 }  
             }
+            if (erroresSemanticos.size()  > 0 ){
+                javax.swing.JPanel cont = new javax.swing.JPanel();
+                cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
+                panel.addWords(new ResultPanelS("Token","Descripción","Lineas"),cont);
+                for (int i = 0; i < erroresSemanticos.size(); i++) {
+                    ErrorSemantico e = erroresSemanticos.get(i);
+                    panel.addWords(new ResultPanelSemantic(e.error,e.descripcion,e.fila+", "+e.col),cont,Color.RED);
+                }  
+            }
             panel.setVisible(true);
             sendMessage("Se han encontrado errores.\n No se ha podido compilar.","/cancel.png", filename);
             return;
         }
         
         sendMessage("Compilado con éxito.","/checked.png",filename);
+    }
+    public void showSymbols(){
+        javax.swing.JPanel cont = new javax.swing.JPanel();
+        cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
+        for (String clave:tabla.keySet()) {
+            String nombre = clave;
+            String tipo = tabla.get(clave).tipo;
+            String valor = tabla.get(clave).valor;
+            String clase;
+            String par = "";
+            if(tabla.get(clave).funcion){
+                clase = "FUNCION";
+                par = tabla.get(clave).parametros.keySet().stream().map(parametro -> 
+                parametro+"("+tabla.get(clave).parametros.get(parametro).tipo+"), ").reduce(par, String::concat);
+                par = par.substring(0,par.length()-2);
+            }
+            else 
+                clase = "VARIABLE";  
+            panel.addWords(new Simbolo(nombre,clase,par,tipo, valor),cont,Color.RED);
+        }
     }
     public void simpleAnalisis(String path){
         try {
@@ -132,6 +159,7 @@ public class LexProcessor {
                 if (tokens == null){
                     Sintax s;
                     errores = new ArrayList();
+                    erroresSemanticos = new ArrayList();
                     s = new Sintax(new LexerCup(new StringReader(content)));
                     try {
                         s.parse();
@@ -141,7 +169,7 @@ public class LexProcessor {
                         System.out.println(String.valueOf(sym.right+1)+" "+String.valueOf(sym.left+1)+" "+String.valueOf(sym.value.toString())+" ");*/
                     }
                     System.out.println(errores.toString());
-                    showErrors(0,0,filename, errores.size());
+                    showErrors(0,0,filename, errors.size());
                     return;
                 }
                 else{
