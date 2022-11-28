@@ -192,7 +192,7 @@ public class Traductor {
     
     public static void recuerdaFuncion(String token){
         RSFuncion rsFuncion = new RSFuncion();
-        rsFuncion.name = token; //Guarda el nombre de la funcion
+        rsFuncion.id = token; //Guarda el nombre de la funcion
         RSTipo valorRetorno = (RSTipo) PilaSemantica.pop();
         Dato tipoFuncion = new Dato();
         rsFuncion.dato = tipoFuncion;
@@ -208,14 +208,15 @@ public class Traductor {
         Dato dato = new Dato();
         dato.tipo = tipoParametro.tipo; //sacar el tipo del parametro
         rsFuncion.dato.parametros.put(token, dato);
+        //Agregar el validar los parametros
     }
     
     public static void insertarFuncion(Symbol symbol){
         RSFuncion rsFuncion = (RSFuncion)PilaSemantica.pop();
-        if (!TablaSimbolos.tabla.containsKey(rsFuncion.name)) {
-            TablaSimbolos.tabla.put(rsFuncion.name, rsFuncion.dato);
+        if (!TablaSimbolos.tabla.containsKey(rsFuncion.id)) {
+            TablaSimbolos.tabla.put(rsFuncion.id, rsFuncion.dato);
         } else {
-            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Funcion ya definida", rsFuncion.name);
+            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Funcion ya definida", rsFuncion.id);
             ListaErroresSemantico.erroresSemanticos.add(error);
         }
     }
