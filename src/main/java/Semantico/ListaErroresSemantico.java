@@ -5,7 +5,6 @@
  */
 package Semantico;
 
-import Sintactico.*;
 import java.util.ArrayList;
 
 /**
@@ -13,11 +12,11 @@ import java.util.ArrayList;
  * @author DiegoAlvarez
  */
 public class ListaErroresSemantico {
-    public static ArrayList<ErrorSintactico> errores = new ArrayList<ErrorSintactico>();
+    public static ArrayList<ErrorSemantico> erroresSemanticos = new ArrayList<ErrorSemantico>();
     @Override
     public String toString(){
         String res= "";
-        res = errores.stream().map(error -> error.toString()).reduce(res, String::concat);
+        res = erroresSemanticos.stream().map(error -> error.toString()).reduce(res, String::concat);
         return res;
     }
 }
