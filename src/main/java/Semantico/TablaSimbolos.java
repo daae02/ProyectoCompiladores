@@ -35,12 +35,12 @@ public class TablaSimbolos {
             String nombre =clave+"\t";
             String tipo = tabla.get(clave).tipo+"\t";
             String par = "";
-            if(tabla.get(clave).funcion)
+            if(tabla.get(clave).funcion){
                 res+="FUNCION\t";
+                par = tabla.get(clave).parametros.keySet().stream().map(nombres -> 
+                tabla.get(clave).parametros.get(nombres).tipo+" / "+nombres+"\t").reduce(par, String::concat);}
             else 
                 res+="VARIABLE\t";
-            par = tabla.get(clave).parametros.keySet().stream().map(nombres -> 
-            tabla.get(clave).parametros.get(nombres).tipo+" / "+nombres+"\t").reduce(par, String::concat);
             res+=nombre+tipo+par+"\n";  
         }
         return res;
