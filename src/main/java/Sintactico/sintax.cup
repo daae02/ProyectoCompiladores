@@ -85,7 +85,7 @@ DECLARACION_FUNCION
 ;
 
 EXPRESION_PRIMARIA 
-    ::= Identificador
+    ::= Identificador:id {: Traductor.recuerdaVariable((String) e, id) ; PilaSemantica.printArray(); :}
     |   LITERAL 
     |   OperadorParentesisIz EXPRESION OperadorParentesisDer
 ;

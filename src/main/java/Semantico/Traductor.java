@@ -6,7 +6,6 @@
 package Semantico;
 
 import java_cup.runtime.Symbol;
-import org.graalvm.compiler.nodes.util.ConstantFoldUtil;
 
 /**
  *
@@ -42,7 +41,7 @@ public class Traductor {
                 dato.tipo = rs_tipo.tipo;
                 TablaSimbolos.tabla.put(rs_id.nombre, dato);
             } else {
-                ErrorSemantico error = new ErrorSemantico(symbol, "Error: Variable no definida", rs_id.nombre);
+                ErrorSemantico error = new ErrorSemantico(symbol, "Error: Variable doblemente definida", rs_id.nombre);
                 ListaErroresSemantico.erroresSemanticos.add(error);
             }
         }
@@ -66,7 +65,7 @@ public class Traductor {
 
     }
     
-    public static void recuerdaVariable(String token) {
+    public static void recuerdaVariable(String token, Symbol symbol) {
         
         String tipo = "";
         String valor = "";
@@ -79,6 +78,8 @@ public class Traductor {
         if (!TablaSimbolos.tabla.containsKey(rs_do.value)) {
             dato.valor = "Error";
             TablaSimbolos.tabla.put(rs_do.value, dato);
+            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Variable no definida", token);
+            ListaErroresSemantico.erroresSemanticos.add(error);
         }
         PilaSemantica.push(rs_do);
         
@@ -111,25 +112,25 @@ public class Traductor {
     
     public static String constantFolding (String value1, String value2, String operador) {
         String resultado = "";
-        int num = 0;
+        double num = 0;
         switch(operador) {
             case "+":
-                num = Integer.parseInt(value1) + Integer.parseInt(value2);
+                num = Double.parseDouble(value1) + Double.parseDouble(value2);
                 break;
             case "-":
-                num = Integer.parseInt(value1) - Integer.parseInt(value2);
+                num = Double.parseDouble(value1) - Double.parseDouble(value2);
                 break;
             case "*":
-                num = Integer.parseInt(value1) * Integer.parseInt(value2);
+                num = Double.parseDouble(value1) * Double.parseDouble(value2);
                 break;
             case "/":
-                num = Integer.parseInt(value1) / Integer.parseInt(value2);
+                num = Double.parseDouble(value1) / Double.parseDouble(value2);
                 break;
             case "%":
-                num = Integer.parseInt(value1) % Integer.parseInt(value2);
+                num = Double.parseDouble(value1) % Double.parseDouble(value2);
                 break;
         }
-        resultado = Integer.toString(num);
+        resultado = Double.toString(num);
         return resultado;
     }
     
