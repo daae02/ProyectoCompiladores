@@ -10,7 +10,9 @@ package Semantico;
  */
 public class RSFuncion extends RegistroSemantico{
     Dato dato;
+    String id;
     
     public RSFuncion(){
+        this.name = "Funcion";
     }
 }
