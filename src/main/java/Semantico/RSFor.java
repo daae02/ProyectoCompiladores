@@ -16,6 +16,7 @@ public class RSFor extends RegistroSemantico{
     public RSFor(String exitLabel, String testLabel) {
         this.exitLabel = exitLabel;
         this.testLabel = testLabel;
+        this.name = "For";
     }
 
 }

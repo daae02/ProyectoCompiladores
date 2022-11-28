@@ -16,6 +16,7 @@ public class RSWhile extends RegistroSemantico{
     public RSWhile(String exitLabel, String whileLabel) {
         this.exitLabel = exitLabel;
         this.whileLabel = whileLabel;
+        this.name = "While";
     }
 
 }

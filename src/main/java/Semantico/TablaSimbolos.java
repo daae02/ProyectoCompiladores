@@ -5,6 +5,7 @@
  */
 package Semantico;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -12,5 +13,5 @@ import java.util.Map;
  * @author DiegoAlvarez
  */
 public class TablaSimbolos {
-    Map<String,Dato> tabla;
+    public static Map<String,Dato> tabla = new LinkedHashMap<>();
 }

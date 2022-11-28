@@ -1,6 +1,8 @@
 package Sintactico;
 
 import java_cup.runtime.Symbol;
+import Semantico.Traductor;
+import Semantico.PilaSemantica;
 
 parser code
 {:
@@ -17,6 +19,9 @@ parser code
     } 
     public Symbol getS(){
         return this.s;
+    }
+    public void test() {
+        System.out.println("Testing");
     }
 :};
 
@@ -83,19 +88,19 @@ DECLARACION_FUNCION
 
 EXPRESION_PRIMARIA 
     ::= Identificador
-    |   LITERAL 
+    |   LITERAL
     |   OperadorParentesisIz EXPRESION OperadorParentesisDer
 ;
 
 LITERAL 
-    ::= Entero 
-    |   Flotante 
-    |   FlotanteExponente 
-    |   Octal 
-    |   OctalFlotante 
-    |   Hexadecimal 
-    |   HexadecimalFlotante 
-    |   Caracter 
+    ::= Entero:e {: Traductor.recuerdaConstante((String) e); PilaSemantica.printArray(); :}
+    |   Flotante:f {: Traductor.recuerdaConstante((String) f); PilaSemantica.printArray(); :}
+    |   FlotanteExponente:fe {: Traductor.recuerdaConstante((String) fe); PilaSemantica.printArray(); :}
+    |   Octal:o {: Traductor.recuerdaConstante((String) o); PilaSemantica.printArray(); :}
+    |   OctalFlotante:oe {: Traductor.recuerdaConstante((String) oe); PilaSemantica.printArray(); :}
+    |   Hexadecimal:h {: Traductor.recuerdaConstante((String) h); PilaSemantica.printArray(); :}
+    |   HexadecimalFlotante:hf {: Traductor.recuerdaConstante((String) hf); PilaSemantica.printArray(); :}
+    |   Caracter:c {: Traductor.recuerdaConstante((String) c); PilaSemantica.printArray(); :}
 ;
 
 EXPRESION_POSTFIJA 
@@ -200,7 +205,7 @@ EXPRESION
 ;
 
 DECLARACION 
-    ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa
+    ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa 
     |   ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa
     |   error OperadorPuntoComa {: errores.add(new ErrorSintactico(parser.getS(), "Declaración no válida")); :}
 ;
@@ -219,7 +224,7 @@ LISTA_DECLARADORES_INICIALIZADORES
 
 DECLARADOR_INICIALIZADOR 
     ::= DECLARADOR 
-    |   DECLARADOR OperadorIgual INICIALIZADOR 
+    |   DECLARADOR OperadorIgual INICIALIZADOR
 ;
 
 ESPECIFICADOR_TIPO 

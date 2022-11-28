@@ -16,5 +16,6 @@ public class RSIf extends RegistroSemantico{
     public RSIf(String exitLabel, String elseLabel) {
         this.exitLabel = exitLabel;
         this.elseLabel = elseLabel;
+        this.name = "If";
     }
 }

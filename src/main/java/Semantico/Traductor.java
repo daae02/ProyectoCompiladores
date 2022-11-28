@@ -11,7 +11,39 @@ package Semantico;
  */
 public class Traductor {
     
-   public static void recuerdaConstante(String token) {
+    private static String ensamblador;
+    
+    public static void recuerdaId(String token) {
+        
+        RSIdentificador rs_id = new RSIdentificador(token);
+        PilaSemantica.push(rs_id);
+        
+    }
+    
+    public static void recuerdaTipo(String token) {
+        
+        RSTipo rs_tipo = new RSTipo(token);
+        PilaSemantica.push(rs_tipo);
+        
+    }
+    
+    public static void insertarTS () {
+        
+        RSTipo rs_tipo = (RSTipo) PilaSemantica.search("Tipo");
+        RSIdentificador rs_id;
+        Dato dato;
+        while (!PilaSemantica.peek().name.equals("Tipo")) {
+            rs_id = (RSIdentificador) PilaSemantica.pop();         
+            if (!TablaSimbolos.tabla.containsKey(rs_id.nombre)) {
+                dato = new Dato();
+                dato.tipo = rs_tipo.tipo;
+                TablaSimbolos.tabla.put(rs_id.nombre, dato);
+            } // else error
+        }
+        
+    }
+    
+    public static void recuerdaConstante(String token) {
 
         RSDataObject rs_do = new RSDataObject();
         rs_do.tipo = DOType.CONSTANTE;
@@ -29,16 +61,21 @@ public class Traductor {
     }
     
     public static void recuerdaVariable(String token) {
+        
+        String tipo = "";
+        String valor = "";
+        Dato dato = new Dato();
     
         RSDataObject rs_do = new RSDataObject();
         rs_do.tipo = DOType.DREGISTRO;
         rs_do.value = token;
         
-        // if () {
-        // } else {
-            // Insertar en tabla de símbolos con tag de error
-        // } 
-      //  PilaSemantica.push(rs_do);
+        if (!TablaSimbolos.tabla.containsKey(rs_do.value)) {
+            dato.valor = "Error";
+            TablaSimbolos.tabla.put(rs_do.value, dato);
+        }
+        PilaSemantica.push(rs_do);
+        
     }
     
     public static void evalExpression () {
@@ -59,10 +96,71 @@ public class Traductor {
             rs_do.value = resultado;
         } else {
             rs_do.tipo = DOType.DREGISTRO;
-            //rs_do.value = token;
+            rs_do.value = rs_operador.operador;
             //devolver el == o el >= <=  > < 
         }
+        
+        PilaSemantica.push(rs_do);
 
     }
     
+    public static void startIf(int linea){
+        RSIf rsIf = new RSIf("exitLabel" + linea, "elseLabel" + linea);
+        PilaSemantica.push(rsIf);
+    }
+    
+    public static void testIF(){
+        //realizar el pop del RSDO de la pila
+        RSDataObject rsDO = (RSDataObject) PilaSemantica.pop(); //Obtiene el rsdo
+        //Generar el codigo de la evaluacion segun la doreccion del rs_do
+        //No se como se evalua??????? AYUDAAAAAAAAAAAAAAAA
+        String jmp = "";
+        RSIf rsif = (RSIf) PilaSemantica.peek(); //Verificar si siempre sera el tope o se tiene que buscar
+        switch(rsDO.value){
+            case "==":
+                jmp = "jz " + rsif.elseLabel;
+                break;
+            case "<":
+                jmp = "jb " + rsif.elseLabel;
+                break;
+            case ">":
+                jmp = "ja " + rsif.elseLabel;
+                break;
+            case "<=":
+                jmp = "jbe " + rsif.elseLabel;
+                break;
+            case ">=":
+                jmp = "jae " + rsif.elseLabel;
+                break;
+            default:
+                jmp = "jz " + rsif.elseLabel;
+                break;      
+        }
+        ensamblador += "\n" + jmp;
+    }
+    
+    public static void startElse(){
+        //Generar "JUMP" + RS_IF.exit_label
+        RSIf rsif = (RSIf) PilaSemantica.peek(); //Verificar si siempre sera el tope o se tiene que buscar
+        String jumpExit = "jmp" + rsif.exitLabel;
+        ensamblador += "\n" + jumpExit;
+        
+        // Generar RS_EF.else_label + ":"
+        String elseLabel = rsif.elseLabel + ":";
+        ensamblador += "\n" + elseLabel;
+    }
+    
+    public static void endIF(){
+        //Generar RS_IF.exit_label + ":"
+        //POP RS_IF la pila queda igual que antes del IF
+        RSIf rsif = (RSIf) PilaSemantica.pop(); //Verificar si siempre sera el tope o se tiene que buscar
+        String exitLabel = rsif.exitLabel + ":";
+        ensamblador += "\n" + exitLabel;
+    }
+
+    public static String getEnsamblador() {
+        return ensamblador;
+    }
+  
 }
+

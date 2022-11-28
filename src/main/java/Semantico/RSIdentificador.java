@@ -13,5 +13,6 @@ public class RSIdentificador extends RegistroSemantico{
     String nombre;
     public RSIdentificador(String nombre){
         this.nombre = nombre;
+        this.name = "Identificador";
     }
 }

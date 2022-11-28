@@ -12,4 +12,16 @@ package Semantico;
 public class RSDataObject extends RegistroSemantico {
     public DOType tipo;
     public String value;
+    
+    public RSDataObject(){
+        this.name = "DO";
+    }
+
+    @Override
+    public String toString() {
+        return "RSDataObject{" + "tipo=" + tipo + ", value=" + value + '}';
+    }
+            
 }
+
+
