@@ -5,6 +5,7 @@
  */
 package Semantico;
 
+import java.util.ArrayList;
 import java_cup.runtime.Symbol;
 
 /**
@@ -223,5 +224,40 @@ public class Traductor {
         }
     }
   
+    public static void recuerdaLlamadoFuncion(String token){
+        RSFuncion rsFuncion = new RSFuncion();
+        rsFuncion.id = token; //Guarda el nombre de la funcion
+        Dato tipoFuncion = new Dato();
+        rsFuncion.dato = tipoFuncion;
+        tipoFuncion.funcion(); //Confirmar que es una funcion para iniciar los parametros
+        
+        PilaSemantica.push(rsFuncion);
+    }
+    
+    public static void sacarParametros(String token){
+        RSIdentificador dataO = new RSIdentificador(token);
+        PilaSemantica.push(dataO);
+    }
+    
+    public static void testFuncion(Symbol symbol){
+        RSFuncion rsFuncion = (RSFuncion)PilaSemantica.pop();
+        Dato datoFuncion;
+        
+        ArrayList<RSIdentificador> parametrosEntrada = new ArrayList();
+        while (!PilaSemantica.peek().name.equals("Funcion")){
+            parametrosEntrada.add( (RSIdentificador)PilaSemantica.pop());
+        }
+        
+        if (TablaSimbolos.tabla.containsKey(rsFuncion.id)) {
+            datoFuncion = TablaSimbolos.tabla.get(rsFuncion.id);
+            int largoPFuncion = datoFuncion.parametros.keySet().size();
+            for (String clave:datoFuncion.parametros.keySet()) {
+                
+            }
+        } else {
+            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Funcion no declarada", rsFuncion.id);
+            ListaErroresSemantico.erroresSemanticos.add(error);
+        }
+    }
 }
 
