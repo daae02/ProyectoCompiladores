@@ -107,29 +107,37 @@ public class Traductor {
         
     }
     
-    public static void evalExpression () {
-
+    public static void evalExpression (int fila, int columna) {
+        System.out.println("evalExpression");
         RSDataObject rs_do1;
         RSOperador rs_operador;
         RSDataObject rs_do2;
         RSDataObject rs_do = new RSDataObject();
-
+        System.out.println("Pila");
+        PilaSemantica.printArray();
         rs_do2 = (RSDataObject) PilaSemantica.pop();
         rs_operador = (RSOperador) PilaSemantica.pop();
         rs_do1 = (RSDataObject) PilaSemantica.pop();
-       
-        if (rs_do2.tipo == DOType.CONSTANTE && rs_do1.tipo == DOType.CONSTANTE) {
-            String resultado = constantFolding(rs_do1.value, rs_do2.value, rs_operador.operador);
-            rs_do.tipo = DOType.CONSTANTE;
-            rs_do.value = resultado;
-        } else {
-            rs_do.tipo = DOType.DREGISTRO;
-            rs_do.value = rs_operador.operador;
-            //devolver el == o el >= <=  > < 
-        }
         
-        PilaSemantica.push(rs_do);
+        System.out.println(rs_do1.value+rs_operador.operador+rs_do2.value);
+        try{
+            if (rs_do2.tipo == DOType.CONSTANTE && rs_do1.tipo == DOType.CONSTANTE) {
+                String resultado = constantFolding(rs_do1.value, rs_do2.value, rs_operador.operador);
+                rs_do.tipo = DOType.CONSTANTE;
+                rs_do.value = resultado;
+            } else {
+                rs_do.tipo = DOType.DREGISTRO;
+                rs_do.value = rs_operador.operador;
+                //devolver el == o el >= <=  > < 
+            }
 
+            PilaSemantica.push(rs_do);
+        }
+ 
+        catch(Error e){
+            ErrorSemantico error = new ErrorSemantico(fila, columna, "Error: expresión no valida",rs_do1.value+rs_operador.operador+rs_do2.value);
+            ListaErroresSemantico.erroresSemanticos.add(error);
+        }
     }
     
     public static String constantFolding (String value1, String value2, String operador) {

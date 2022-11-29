@@ -127,63 +127,63 @@ EXPRESION_UNARIA
 ;
 
 OPERADOR_UNARIO 
-    ::= OperadorAND
-    |   OperadorMultiplicacion
-    |   OperadorMas
-    |   OperadorMenos
-    |   OperadorNegacion
+    ::= OperadorAND:op {: Traductor.recuerdaOperador((String) op) ;  :} 
+    |   OperadorMultiplicacion:op {: Traductor.recuerdaOperador((String) op) ;  :} 
+    |   OperadorMas:op {: Traductor.recuerdaOperador((String) op) ;  :} 
+    |   OperadorMenos:op {: Traductor.recuerdaOperador((String) op) ;  :} 
+    |   OperadorNegacion:op {: Traductor.recuerdaOperador((String) op) ;  :} 
 ;
 
 EXPRESION_MULTIPLICATIVA
     ::= EXPRESION_UNARIA 
-    |   EXPRESION_MULTIPLICATIVA OperadorMultiplicacion EXPRESION_UNARIA
-    |   EXPRESION_MULTIPLICATIVA OperadorDivision EXPRESION_UNARIA
-    |   EXPRESION_MULTIPLICATIVA OperadorModulo EXPRESION_UNARIA
+    |   EXPRESION_MULTIPLICATIVA OperadorMultiplicacion:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_UNARIA
+    |   EXPRESION_MULTIPLICATIVA OperadorDivision:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_UNARIA
+    |   EXPRESION_MULTIPLICATIVA OperadorModulo:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_UNARIA
 ;
 
 EXPRESION_ADITIVA
     ::= EXPRESION_MULTIPLICATIVA
-    |   EXPRESION_ADITIVA OperadorMas EXPRESION_MULTIPLICATIVA
-    |   EXPRESION_ADITIVA OperadorMenos EXPRESION_MULTIPLICATIVA
+    |   EXPRESION_ADITIVA OperadorMas:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_MULTIPLICATIVA
+    |   EXPRESION_ADITIVA OperadorMenos:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_MULTIPLICATIVA
 ;
 
 EXPRESION_RELACIONAL
     ::= EXPRESION_ADITIVA
-    |   EXPRESION_RELACIONAL OperadorMenor EXPRESION_ADITIVA
-    |   EXPRESION_RELACIONAL OperadorMayor EXPRESION_ADITIVA
-    |   EXPRESION_RELACIONAL OperadorMenorIgual EXPRESION_ADITIVA
-    |   EXPRESION_RELACIONAL OperadorMayorIgual EXPRESION_ADITIVA
+    |   EXPRESION_RELACIONAL OperadorMenor:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_ADITIVA
+    |   EXPRESION_RELACIONAL OperadorMayor:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_ADITIVA
+    |   EXPRESION_RELACIONAL OperadorMenorIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_ADITIVA
+    |   EXPRESION_RELACIONAL OperadorMayorIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_ADITIVA
 ;
 
 EXPRESION_IGUALDAD
     ::= EXPRESION_RELACIONAL
-    |   EXPRESION_IGUALDAD OperadorIgualIgual EXPRESION_RELACIONAL
-    |   EXPRESION_IGUALDAD OperadorDesigual EXPRESION_RELACIONAL
+    |   EXPRESION_IGUALDAD OperadorIgualIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_RELACIONAL
+    |   EXPRESION_IGUALDAD OperadorDesigual:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_RELACIONAL
 ;
 
 EXPRESION_AND
     ::= EXPRESION_IGUALDAD
-    |   EXPRESION_AND OperadorAND EXPRESION_IGUALDAD
+    |   EXPRESION_AND OperadorAND:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_IGUALDAD
 ;
 
 EXPRESION_XOR
     ::= EXPRESION_AND
-    |   EXPRESION_XOR OperadorXOR EXPRESION_AND
+    |   EXPRESION_XOR OperadorXOR:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_AND
 ;
 
 EXPRESION_OR
     ::= EXPRESION_XOR
-    |   EXPRESION_OR OperadorOR EXPRESION_XOR
+    |   EXPRESION_OR OperadorOR:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_XOR
 ;
 
 EXPRESION_LAZY_AND
     ::= EXPRESION_OR
-    |   EXPRESION_LAZY_AND OperadorANDLazy EXPRESION_OR
+    |   EXPRESION_LAZY_AND OperadorANDLazy:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_OR
 ;
 
 EXPRESION_LAZY_OR
     ::= EXPRESION_LAZY_AND
-    |   EXPRESION_LAZY_OR OperadorORLazy EXPRESION_LAZY_AND
+    |   EXPRESION_LAZY_OR OperadorORLazy:op {: Traductor.recuerdaOperador((String) op) ;  :}  EXPRESION_LAZY_AND
 ;
 
 EXPRESION_ASIGNACION
@@ -192,12 +192,12 @@ EXPRESION_ASIGNACION
 ;
 
 OPERADOR_ASIGNACION 
-    ::= OperadorIgual       
-    |   OperadorMasIgual    
-    |   OperadorMenosIgual  
-    |   OperadorMultiIgual  
-    |   OperadorDivIgual    
-    |   OperadorModIgual    
+    ::= OperadorIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}   
+    |   OperadorMasIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}      
+    |   OperadorMenosIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}    
+    |   OperadorMultiIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}    
+    |   OperadorDivIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}      
+    |   OperadorModIgual:op {: Traductor.recuerdaOperador((String) op) ;  :}      
 ;
 
 EXPRESION
@@ -345,7 +345,7 @@ LISTA_SENTENCIAS
 
 SENTENCIA_EXPRESION 
     ::= OperadorPuntoComa 
-    |   EXPRESION OperadorPuntoComa
+    |   EXPRESION OperadorPuntoComa:e {:Traductor.evalExpression(eright,eleft);:}
 ;
 
 SENTENCIA_SELECCION 
