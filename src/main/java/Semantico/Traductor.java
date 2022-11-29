@@ -6,6 +6,8 @@
 package Semantico;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.regex.Pattern;
 import java_cup.runtime.Symbol;
 
 /**
@@ -238,7 +240,23 @@ public class Traductor {
         RSIdentificador dataO = new RSIdentificador(token);
         PilaSemantica.push(dataO);
     }
-    
+    private static String esConstante(String num){
+        Pattern intP = Pattern.compile("^\\d+$");
+        Pattern floatP = Pattern.compile("^([+-]?\\d*.\\d*)$");
+        Pattern charP = Pattern.compile("^\'[ A-Za-z0-9_@./#&+-]\'$");
+        if (intP.matcher(num).matches()){
+            return "int";
+        }
+        else if (floatP.matcher(num).matches()){
+            return "float";
+        }
+        else if (charP.matcher(num).matches()){
+            return "char";
+        }
+        else{
+            return "no";
+        }
+    }
     public static void testFuncion(Symbol symbol){
         RSFuncion rsFuncion = (RSFuncion)PilaSemantica.pop();
         Dato datoFuncion;
@@ -251,8 +269,31 @@ public class Traductor {
         if (TablaSimbolos.tabla.containsKey(rsFuncion.id)) {
             datoFuncion = TablaSimbolos.tabla.get(rsFuncion.id);
             int largoPFuncion = datoFuncion.parametros.keySet().size();
-            for (String clave:datoFuncion.parametros.keySet()) {
-                
+            if (largoPFuncion != parametrosEntrada.size()){
+                ErrorSemantico error = new ErrorSemantico(symbol, "Error: Parametros recibidos: "+parametrosEntrada.size()+" esperados: "+largoPFuncion, rsFuncion.id);
+                ListaErroresSemantico.erroresSemanticos.add(error);
+            }
+            else{
+                ArrayList<String> nParametros = new ArrayList<>(datoFuncion.parametros.keySet());
+                Collections.reverse(nParametros);
+                for (int i = parametrosEntrada.size()-1; i >= 0; i--) {
+                    if(TablaSimbolos.tabla.get(parametrosEntrada.get(i).nombre) != null){ 
+                        if (!datoFuncion.parametros.get(nParametros.get(i)).tipo.equals(TablaSimbolos.tabla.get(parametrosEntrada.get(i).nombre))){
+                            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Parametros no correspondientes", rsFuncion.id);
+                            ListaErroresSemantico.erroresSemanticos.add(error);
+                        }
+                    }
+                    else if(!esConstante(parametrosEntrada.get(i).nombre).equals("no")){
+                         if (!datoFuncion.parametros.get(nParametros.get(i)).tipo.equals(esConstante(parametrosEntrada.get(i).nombre))){
+                            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Parametros no correspondientes", rsFuncion.id);
+                            ListaErroresSemantico.erroresSemanticos.add(error);
+                         }
+                    }
+                    else{
+                        ErrorSemantico error = new ErrorSemantico(symbol, "Error: Variable no declarada", rsFuncion.id);
+                        ListaErroresSemantico.erroresSemanticos.add(error);
+                    }
+                }   
             }
         } else {
             ErrorSemantico error = new ErrorSemantico(symbol, "Error: Funcion no declarada", rsFuncion.id);
