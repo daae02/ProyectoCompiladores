@@ -20,7 +20,7 @@ public class PilaSemantica {
     
     public static RegistroSemantico pop(){
          RegistroSemantico aux =  stack.get(stack.size()-1);
-         stack.remove(aux);
+         stack.remove(stack.size()-1);
          return aux;
     }
     

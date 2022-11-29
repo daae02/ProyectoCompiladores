@@ -87,11 +87,11 @@ public class LexProcessor {
             new ImageIcon(getClass().getResource(icon)));
     }
     private void showErrors(int h,int w, String filename, int sErrors){
+        panel = new ResultsPanel();
+        panel.setTitle("Tabla de Resultados de "+ filename);
+        panel.setLocation(w, h);
+        showSymbols();
         if (errores.size()+erroresSemanticos.size()+sErrors > 0){
-            panel = new ResultsPanel();
-            panel.setTitle("Tabla de Errores de "+ filename);
-            panel.setLocation(w, h);
-            showSymbols();
             if (sErrors > 0 ){
                 javax.swing.JPanel cont = new javax.swing.JPanel();
                 cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
@@ -123,7 +123,7 @@ public class LexProcessor {
             sendMessage("Se han encontrado errores.\n No se ha podido compilar.","/cancel.png", filename);
             return;
         }
-        
+        panel.setVisible(true);
         sendMessage("Compilado con éxito.","/checked.png",filename);
     }
     public void showSymbols(){

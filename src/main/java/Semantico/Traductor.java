@@ -19,35 +19,54 @@ public class Traductor {
     private static String ensamblador;
     
     public static void recuerdaId(String token) {
-        
-        RSIdentificador rs_id = new RSIdentificador(token);
-        PilaSemantica.push(rs_id);
-        
+
+        RSFuncion rs_funcion = (RSFuncion) PilaSemantica.search("Funcion");
+        if (rs_funcion == null) {
+            RSIdentificador rs_id = new RSIdentificador(token);
+            PilaSemantica.push(rs_id);
+        } else {
+            RSTipo tipoParametro = (RSTipo)PilaSemantica.pop();
+            RSFuncion rsFuncion = (RSFuncion) PilaSemantica.peek();
+            Dato dato = new Dato();
+            dato.tipo = tipoParametro.tipo; //sacar el tipo del parametro
+            rsFuncion.dato.parametros.put(token, dato);
+        }
+
     }
     
     public static void recuerdaTipo(String token) {
-        
         RSTipo rs_tipo = new RSTipo(token);
         PilaSemantica.push(rs_tipo);
         
     }
     
-    public static void insertarTS (Symbol symbol) {
-        
+    public static void insertarTS (int fila, int columna) {
+        System.out.println("Antes");
+        System.out.println(TablaSimbolos.tabla.toString());
+        PilaSemantica.printArray();
         RSTipo rs_tipo = (RSTipo) PilaSemantica.search("Tipo");
         RSIdentificador rs_id;
         Dato dato;
         while (!PilaSemantica.peek().name.equals("Tipo")) {
-            rs_id = (RSIdentificador) PilaSemantica.pop();         
+            rs_id = (RSIdentificador) PilaSemantica.pop();  
+            System.out.println("Popea de la pila:"+rs_id.nombre);
+            System.out.println(!TablaSimbolos.tabla.containsKey(rs_id.nombre));
             if (!TablaSimbolos.tabla.containsKey(rs_id.nombre)) {
+                System.out.println("No se encontró en la tabla");
                 dato = new Dato();
                 dato.tipo = rs_tipo.tipo;
                 TablaSimbolos.tabla.put(rs_id.nombre, dato);
             } else {
-                ErrorSemantico error = new ErrorSemantico(symbol, "Error: Variable doblemente definida", rs_id.nombre);
+                System.out.println(rs_id.nombre+" ya se registró");
+                System.out.println(fila+", "+columna);
+                ErrorSemantico error = new ErrorSemantico(fila,columna, "Error: Variable doblemente definida", rs_id.nombre);
                 ListaErroresSemantico.erroresSemanticos.add(error);
             }
         }
+        System.out.println("Despues");
+        System.out.println(TablaSimbolos.tabla.toString());
+        PilaSemantica.pop();
+        PilaSemantica.printArray();
         
     }
     
@@ -68,7 +87,7 @@ public class Traductor {
 
     }
     
-    public static void recuerdaVariable(String token, Symbol symbol) {
+    public static void recuerdaVariable(String token, int fila, int columna) {
         
         String tipo = "";
         String valor = "";
@@ -81,7 +100,7 @@ public class Traductor {
         if (!TablaSimbolos.tabla.containsKey(rs_do.value)) {
             dato.valor = "Error";
             TablaSimbolos.tabla.put(rs_do.value, dato);
-            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Variable no definida", token);
+            ErrorSemantico error = new ErrorSemantico(fila, columna, "Error: Variable no definida", token);
             ListaErroresSemantico.erroresSemanticos.add(error);
         }
         PilaSemantica.push(rs_do);
@@ -196,6 +215,7 @@ public class Traductor {
     }
     
     public static void recuerdaFuncion(String token){
+        System.out.println("Recuerda funcion");
         RSFuncion rsFuncion = new RSFuncion();
         rsFuncion.id = token; //Guarda el nombre de la funcion
         RSTipo valorRetorno = (RSTipo) PilaSemantica.pop();
@@ -207,22 +227,16 @@ public class Traductor {
         PilaSemantica.push(rsFuncion);
     }
     
-    public static void recuerdaIDParametro(String token){
-        RSTipo tipoParametro = (RSTipo)PilaSemantica.pop();
-        RSFuncion rsFuncion = (RSFuncion) PilaSemantica.peek();
-        Dato dato = new Dato();
-        dato.tipo = tipoParametro.tipo; //sacar el tipo del parametro
-        rsFuncion.dato.parametros.put(token, dato);
-        //Agregar el validar los parametros
-    }
     
-    public static void insertarFuncion(Symbol symbol){
+    public static void insertarFuncion(int fila,int columna){
         RSFuncion rsFuncion = (RSFuncion)PilaSemantica.pop();
         if (!TablaSimbolos.tabla.containsKey(rsFuncion.id)) {
             TablaSimbolos.tabla.put(rsFuncion.id, rsFuncion.dato);
+            System.out.println("No se encontró");
         } else {
-            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Funcion ya definida", rsFuncion.id);
+            ErrorSemantico error = new ErrorSemantico(fila, columna, "Error: Funcion ya definida", rsFuncion.id);
             ListaErroresSemantico.erroresSemanticos.add(error);
+            System.out.println("Se encontró");
         }
     }
   
@@ -257,7 +271,7 @@ public class Traductor {
             return "no";
         }
     }
-    public static void testFuncion(Symbol symbol){
+    public static void testFuncion(int fila,int columna){
         RSFuncion rsFuncion = (RSFuncion)PilaSemantica.pop();
         Dato datoFuncion;
         
@@ -270,33 +284,33 @@ public class Traductor {
             datoFuncion = TablaSimbolos.tabla.get(rsFuncion.id);
             int largoPFuncion = datoFuncion.parametros.keySet().size();
             if (largoPFuncion != parametrosEntrada.size()){
-                ErrorSemantico error = new ErrorSemantico(symbol, "Error: Parametros recibidos: "+parametrosEntrada.size()+" esperados: "+largoPFuncion, rsFuncion.id);
+                ErrorSemantico error = new ErrorSemantico(fila, columna, "Error: Parametros recibidos: "+parametrosEntrada.size()+" esperados: "+largoPFuncion, rsFuncion.id);
                 ListaErroresSemantico.erroresSemanticos.add(error);
             }
             else{
                 ArrayList<String> nParametros = new ArrayList<>(datoFuncion.parametros.keySet());
                 Collections.reverse(nParametros);
                 for (int i = parametrosEntrada.size()-1; i >= 0; i--) {
-                    if(TablaSimbolos.tabla.get(parametrosEntrada.get(i).nombre) != null){ 
+                    if(TablaSimbolos.tabla.containsKey(parametrosEntrada.get(i).nombre)){ 
                         if (!datoFuncion.parametros.get(nParametros.get(i)).tipo.equals(TablaSimbolos.tabla.get(parametrosEntrada.get(i).nombre))){
-                            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Parametros no correspondientes", rsFuncion.id);
+                            ErrorSemantico error = new ErrorSemantico(fila, columna, "Error: Parametros no correspondientes", rsFuncion.id);
                             ListaErroresSemantico.erroresSemanticos.add(error);
                         }
                     }
                     else if(!esConstante(parametrosEntrada.get(i).nombre).equals("no")){
                          if (!datoFuncion.parametros.get(nParametros.get(i)).tipo.equals(esConstante(parametrosEntrada.get(i).nombre))){
-                            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Parametros no correspondientes", rsFuncion.id);
+                            ErrorSemantico error = new ErrorSemantico(fila, columna, "Error: Parametros no correspondientes", rsFuncion.id);
                             ListaErroresSemantico.erroresSemanticos.add(error);
                          }
                     }
                     else{
-                        ErrorSemantico error = new ErrorSemantico(symbol, "Error: Variable no declarada", rsFuncion.id);
+                        ErrorSemantico error = new ErrorSemantico(fila, columna, "Error: Variable no declarada", rsFuncion.id);
                         ListaErroresSemantico.erroresSemanticos.add(error);
                     }
                 }   
             }
         } else {
-            ErrorSemantico error = new ErrorSemantico(symbol, "Error: Funcion no declarada", rsFuncion.id);
+            ErrorSemantico error = new ErrorSemantico(fila, columna, "Error: Funcion no declarada", rsFuncion.id);
             ListaErroresSemantico.erroresSemanticos.add(error);
         }
     }

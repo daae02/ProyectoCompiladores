@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         String ruta1 = "./src/main/java/Lexico/Lexer.flex";
         String ruta2 = "./src/main/java/Lexico/LexerSintactico.flex";
-        String[] rutaS = {"-parser", "Sintax", "./src/main/java/Sintactico/Sintax.cup"};
+        String[] rutaS = {"-parser", "Sintax","-expect","3", "./src/main/java/Sintactico/Sintax.cup"};
         generar(ruta1, ruta2, rutaS);
     }
     public static void generar(String ruta1, String ruta2, String[] rutaS) throws IOException, Exception{

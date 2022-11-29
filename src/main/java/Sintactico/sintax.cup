@@ -45,7 +45,7 @@ non terminal
     CUALIFICADOR_TIPO, LISTA_TIPOS_PARAMETROS, LISTA_PARAMETROS, DECLARACION_PARAMETRO, LISTA_IDENTIFICADORES, NOMBRE_TIPO,
     DECLARADOR_ABSTRACTO, DECLARADOR_ABSTRACTO_DIRECTO, LISTA_INICIALIZADORES, SENTENCIA, SENTENCIA_ETIQUETADA, 
     SENTENCIA_COMPUESTA, LISTA_DECLARACIONES, LISTA_SENTENCIAS, SENTENCIA_EXPRESION, SENTENCIA_SELECCION, SENTENCIA_ITERACION,
-    SENTENCIA_SALTO, SENTENCIA_READ_WRITE, OPERADOR_UNARIO  
+    SENTENCIA_SALTO, SENTENCIA_READ_WRITE, OPERADOR_UNARIO, RESTO_DECLARACIONF, RESTO_RESTO_DECLARACIONF
 ;
 
 precedence left OperadorCorcheteIz, OperadorCorcheteDer, OperadorParentesisIz, OperadorParentesisDer, OperadorIncremental, OperadorDecremental;
@@ -75,30 +75,34 @@ DECLARACION_EXTERNA
 ;
 
 DECLARACION_FUNCION
-    ::= ESPECIFICADORES_DECLARACION Identificador OperadorParentesisIz LISTA_PARAMETROS OperadorParentesisDer SENTENCIA_COMPUESTA
-    |   Void Identificador OperadorParentesisIz LISTA_PARAMETROS OperadorParentesisDer SENTENCIA_COMPUESTA
-    |   ESPECIFICADORES_DECLARACION Identificador OperadorParentesisIz LISTA_IDENTIFICADORES OperadorParentesisDer SENTENCIA_COMPUESTA
-    |   Void Identificador OperadorParentesisIz LISTA_IDENTIFICADORES OperadorParentesisDer SENTENCIA_COMPUESTA
-    |   ESPECIFICADORES_DECLARACION Identificador OperadorParentesisIz OperadorParentesisDer SENTENCIA_COMPUESTA
-    |   Void Identificador OperadorParentesisIz OperadorParentesisDer SENTENCIA_COMPUESTA
+    ::= ESPECIFICADORES_DECLARACION Identificador:id {: Traductor.recuerdaFuncion((String) id); :} OperadorParentesisIz RESTO_DECLARACIONF
+    |   Void:v {: Traductor.recuerdaTipo((String) v); :} Identificador:id {: Traductor.recuerdaFuncion((String) id); :} OperadorParentesisIz RESTO_DECLARACIONF
     |   error OperadorCorcheteDer {: errores.add(new ErrorSintactico(parser.getS(), "Declaración de función no válida")); :} 
 ;
 
+RESTO_DECLARACIONF
+    ::= LISTA_PARAMETROS RESTO_RESTO_DECLARACIONF
+    |   LISTA_IDENTIFICADORES RESTO_RESTO_DECLARACIONF
+    |   RESTO_RESTO_DECLARACIONF
+;
+RESTO_RESTO_DECLARACIONF
+    ::= OperadorParentesisDer:op {: Traductor.insertarFuncion(opright,opleft); :} SENTENCIA_COMPUESTA
+;
 EXPRESION_PRIMARIA 
-    ::= Identificador:identificador {: Traductor.recuerdaVariable((String) identificador, parser.getS()) ; PilaSemantica.printArray(); :}
+    ::= Identificador:identificador {: Traductor.recuerdaVariable((String) identificador, identificadorright, identificadorleft) ;  :}
     |   LITERAL 
     |   OperadorParentesisIz EXPRESION OperadorParentesisDer
 ;
 
 LITERAL 
-    ::= Entero:e {: Traductor.recuerdaConstante((String) e) ; PilaSemantica.printArray(); :}
-    |   Flotante:f {: Traductor.recuerdaConstante((String) f); PilaSemantica.printArray(); :}
-    |   FlotanteExponente:fe {: Traductor.recuerdaConstante((String) fe); PilaSemantica.printArray(); :}
-    |   Octal:o {: Traductor.recuerdaConstante((String) o); PilaSemantica.printArray(); :}
-    |   OctalFlotante:oe {: Traductor.recuerdaConstante((String) oe); PilaSemantica.printArray(); :}
-    |   Hexadecimal:h {: Traductor.recuerdaConstante((String) h); PilaSemantica.printArray(); :}
-    |   HexadecimalFlotante:hf {: Traductor.recuerdaConstante((String) hf); PilaSemantica.printArray(); :}
-    |   Caracter:c {: Traductor.recuerdaConstante((String) c); PilaSemantica.printArray(); :}
+    ::= Entero:e {: Traductor.recuerdaConstante((String) e) ;  :}
+    |   Flotante:f {: Traductor.recuerdaConstante((String) f);  :}
+    |   FlotanteExponente:fe {: Traductor.recuerdaConstante((String) fe);  :}
+    |   Octal:o {: Traductor.recuerdaConstante((String) o);  :}
+    |   OctalFlotante:oe {: Traductor.recuerdaConstante((String) oe);  :}
+    |   Hexadecimal:h {: Traductor.recuerdaConstante((String) h);  :}
+    |   HexadecimalFlotante:hf {: Traductor.recuerdaConstante((String) hf);  :}
+    |   Caracter:c {: Traductor.recuerdaConstante((String) c);  :}
 ;
 
 EXPRESION_POSTFIJA 
@@ -203,8 +207,8 @@ EXPRESION
 ;
 
 DECLARACION 
-    ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa:OpPuntoComa {: System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(parser.getS()); System.out.println("Tabla: " + TablaSimbolos.tabla); :}
-    |   ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa {: System.out.println("Fin de declaración: "); PilaSemantica.printArray(); System.out.println("Insertando en ts: "); Traductor.insertarTS(parser.getS()); System.out.println("Tabla: " + TablaSimbolos.tabla); :}
+    ::= ESPECIFICADORES_DECLARACION OperadorPuntoComa:OpPuntoComa {: System.out.println("Fin de declaración: ");  System.out.println("Insertando en ts: "); Traductor.insertarTS(OpPuntoComaright,OpPuntoComaleft); :}
+    |   ESPECIFICADORES_DECLARACION LISTA_DECLARADORES_INICIALIZADORES OperadorPuntoComa:OpPuntoComa {: System.out.println("Fin de declaración: ");  System.out.println("Insertando en ts: "); Traductor.insertarTS(OpPuntoComaright,OpPuntoComaleft); :}
     |   error OperadorPuntoComa {: errores.add(new ErrorSintactico(parser.getS(), "Declaración no válida")); :}
 ;
 
@@ -226,10 +230,10 @@ DECLARADOR_INICIALIZADOR
 ;
 
 ESPECIFICADOR_TIPO 
-    ::= Char:char_token {: Traductor.recuerdaTipo((String) char_token) ; PilaSemantica.printArray(); :}
-    |   Int:int_token {: Traductor.recuerdaTipo((String) int_token) ; PilaSemantica.printArray(); :}
-    |   Long:long_token {: Traductor.recuerdaTipo((String) long_token) ; PilaSemantica.printArray(); :}
-    |   Short:short_token {: Traductor.recuerdaTipo((String) short_token) ; PilaSemantica.printArray(); :}
+    ::= Char:char_token {: Traductor.recuerdaTipo((String) char_token) ;  :}
+    |   Int:int_token {: Traductor.recuerdaTipo((String) int_token) ;  :}
+    |   Long:long_token {: Traductor.recuerdaTipo((String) long_token) ;  :}
+    |   Short:short_token {: Traductor.recuerdaTipo((String) short_token) ;  :}
 ;
 
 LISTA_CUALIFICADOR_ESPECIFICADOR
@@ -244,7 +248,7 @@ CUALIFICADOR_TIPO
 ;      
 
 DECLARADOR 
-    ::= Identificador:id {: Traductor.recuerdaId((String) id) ; PilaSemantica.printArray(); System.out.println("Encuentra: "+id); :} 
+    ::= Identificador:id {: Traductor.recuerdaId((String) id) ;  System.out.println("Encuentra: "+id); :} 
     |   OperadorParentesisIz DECLARADOR OperadorParentesisDer  
     |   DECLARADOR OperadorParCuadradoIz EXPRESION_LAZY_OR OperadorParCuadradoDer
     |   DECLARADOR OperadorParCuadradoIz OperadorParCuadradoDer
