@@ -27,11 +27,11 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="word" min="-2" pref="108" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="description" pref="262" max="32767" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="description" min="-2" pref="262" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="32767" attributes="0"/>
               <Component id="lines" min="-2" pref="259" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -39,9 +39,9 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="103" groupAlignment="3" attributes="0">
-              <Component id="word" alignment="3" min="-2" max="-2" attributes="0"/>
-              <Component id="description" alignment="3" max="32767" attributes="0"/>
-              <Component id="lines" alignment="3" max="32767" attributes="0"/>
+              <Component id="word" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+              <Component id="description" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Component id="lines" alignment="3" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

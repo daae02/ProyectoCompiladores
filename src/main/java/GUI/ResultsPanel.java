@@ -42,11 +42,12 @@ public class ResultsPanel extends javax.swing.JFrame {
         cont.add(word);
         scrollSintactico.add(cont);
     }
-    public void addWords(ResultPanelSemantic word, JPanel cont, Color RED) {
+    public void addWords(ResultPanelSemantic word, JPanel cont,Color col){
+        word.word.setForeground(col);
         cont.add(word);
         scrollSemantico.add(cont);
     }
-    public void addWords(Simbolo simbolo, JPanel cont, Color RED) {
+    public void addWords(Simbolo simbolo, JPanel cont) {
         cont.add(simbolo);
         tablaSimbolos.add(cont);
     }
@@ -99,9 +100,11 @@ public class ResultsPanel extends javax.swing.JFrame {
                         .addComponent(scrollSemantico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tablaSimbolos, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 451, Short.MAX_VALUE))
+                    .addComponent(tablaSimbolos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

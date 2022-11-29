@@ -28,15 +28,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="clase" min="-2" pref="51" max="-2" attributes="0"/>
+              <Component id="clase" pref="111" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="Id" min="-2" pref="139" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="Id" pref="163" max="32767" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="type" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="type" min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="value" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="params" min="-2" pref="295" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="params" min="-2" pref="265" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -45,10 +45,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="103" groupAlignment="3" attributes="0">
               <Component id="clase" alignment="3" min="-2" max="-2" attributes="0"/>
-              <Component id="Id" alignment="3" min="-2" max="-2" attributes="0"/>
-              <Component id="type" alignment="3" max="32767" attributes="0"/>
-              <Component id="value" alignment="3" max="32767" attributes="0"/>
-              <Component id="params" alignment="3" max="32767" attributes="0"/>
+              <Group type="102" alignment="3" attributes="0">
+                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                  <Component id="Id" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Component id="type" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Component id="value" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Component id="params" alignment="3" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
